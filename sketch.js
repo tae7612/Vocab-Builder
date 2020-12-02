@@ -29,6 +29,8 @@ var accountPage;
 var searchPage;
 var quizPage;
 
+var json
+
 
 
 function preload(){
@@ -391,7 +393,6 @@ function createSearchPage(){
     if(query != previous){
         previous = query;
         console.log(query);
-        getQuiz();
         if(query == ""){
             searchResults = [];
             resultObj = [];
