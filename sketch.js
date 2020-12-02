@@ -5,21 +5,141 @@ var searchResults = [];
 var previous = '';
 var searchList;
 
+
+var quiz;
+var q;
+var answers = [];
+var answered = false;
+var nextSet = true;
+
+function preload(){
+    q = loadJSON("assets/basic.json");
+    console.log(q);
+    
+    
+}
 function setup() {
     createCanvas(0, 0);
     search = select('#search');
     searchList = select('#search-list');
-
+    quiz = new Quiz(q.levels[0], q.category);
 }
 
 function draw() {
     background("white");
     
+    createQuiz();
+    
+           
+    
+}
+
+
+function createQuiz(){
+//    console.log(quiz);
+    quizHeader = select("#quiz-header");
+    quizHeader.html("<p>"+ quiz.getName()+"</p>");
+    questions = quiz.getQuestions();
+    setQuiz(questions[0]);
+    
+}
+
+function setQuiz(question){
+    
+    if(nextSet){
+        answers = quiz.getAnswers(question);
+        nextSet = false;
+    }
+    
+    quizWord = select("#quiz-word");
+    quizWord.html(question.charAt(0).toUpperCase() + question.slice(1));
+    
+    setQuizBtns(answers, quiz.getCorrect(question));
+   
+}
+
+function setQuizBtns(answers, correct){
+     //A
+    aBtn = select('#aBtn');
+    aBtn.value(answers[0])
+    aLabel = select('#aLabel');
+    aLabel.html(answers[0]);
+    
+    
+    
+     //B
+    bBtn = select('#bBtn');
+    bBtn.value(answers[1])
+    bLabel = select('#bLabel');
+    bLabel.html(answers[1]);
+    
+    
+    
+     //C
+    cBtn = select('#cBtn');
+    cBtn.value(answers[2])
+    cLabel = select('#cLabel');
+    cLabel.html(answers[2]);
+   
+    
+    
+     //D
+    dBtn = select('#dBtn');
+    dBtn.value(answers[3])
+    dLabel = select('#dLabel');
+    dLabel.html(answers[3]);
+    
+    
+    
+    aBtn.mousePressed(function() {
+        console.log(aBtn.value());
+        checkAnswer(aBtn.value(), correct);
+        
+    });
+    
+    bBtn.mousePressed(function() {
+        console.log(bBtn.value());
+        checkAnswer(bBtn.value(), correct);
+        
+    });
+    
+     cBtn.mousePressed(function() {
+        console.log(cBtn.value());
+        checkAnswer(cBtn.value(), correct);
+        
+    });
+    
+    dBtn.mousePressed(function() {
+        console.log(dBtn.value());
+        checkAnswer(dBtn.value(), correct);
+        
+    });
+    
+    if(answered){
+        aBtn.attribute('disabled', '');
+        bBtn.attribute('disabled', '');
+        cBtn.attribute('disabled', '');
+        dBtn.attribute('disabled', '');
+    }
+}
+
+
+function checkAnswer(answer, correct){
+    answered = true;
+    if(answer == correct){
+        console.log("CORRECT!!");
+    }else{
+        console.log("WRONG!!");
+    }
+}
+
+
+function searchPage(){
     query = search.value();
     if(query != previous){
         previous = query;
         console.log(query);
-        console.log(resultObj.length);
+        getQuiz();
         if(query == ""){
             searchResults = [];
             resultObj = [];
@@ -31,7 +151,7 @@ function draw() {
         }
         
     }
-     searchList.html("");
+    searchList.html("");
     if(resultObj.length > 0){
         for (results of resultObj){
             var word = results.word;
@@ -59,28 +179,17 @@ function draw() {
         searchList.html("<li class=\"list-group-item px-5 mx-5\">No Results</li>");
 
     }
-    
-           
-    
 }
 
 
 function getSearch()
-{
-    fetch("https://wordsapiv1.p.rapidapi.com/words/?letterPattern=%5E"+query+".&limit=20&frequencymin=6.98", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
-		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-	}
-})
-    
-fetch( "https://api.datamuse.com/words?sp="+query+"*&max=30")
-.then(response => response.json())
-.then(data => getData(data))
-.catch(err => {
-	console.error(err);
-});
+{    
+    fetch( "https://api.datamuse.com/words?sp="+query+"*&max=30")
+        .then(response => response.json())
+        .then(data => getData(data))
+        .catch(err => {
+	       console.error(err);
+    });
     
 }
 
@@ -122,6 +231,84 @@ function getDefData(data){
     if(keys[0] == "word")
     {
        resultObj.push(data);
+    }
+}
+
+function getQuiz(){
+    
+    console.log(json.category);
+    return json;
+}
+
+
+class Quiz{
+    constructor(data, category){
+        this.quizName = category+" Level "+data.level;
+        this.questions = [];
+        this.correct = new Map();
+        this.answerList = new Map();
+        this.defintion = new Map();
+        this.example = new Map();
+        for(var item of data.questions){
+            this.questions.push(item.word);
+            this.correct.set(item.word, item.correct_answer)
+            this.answerList.set(item.word, item.wrong_answers);
+            this.defintion.set(item.word, item.definition);
+            this.example.set(item.word, item.example);
+        }
+    }
+    
+    setOrder(){
+        
+    }
+    
+    getName(){
+        return this.quizName;
+    }
+    getCorrect(key){
+        return this.correct.get(key);
+    }
+    
+    getAnswers(key){
+        var ans = [];
+        ans.push(this.getCorrect(key));
+        ans = ans.concat(this.answerList.get(key));
+        shuffle(ans, true);
+        return ans;
+    }
+    
+    getQuestions(){
+         return this.questions;
+    }
+    
+    getDefinition(key){
+        
+    }
+    
+    getExample(key){
+        
+    }
+     
+}
+
+
+class Word{
+    constructor(data){
+        this.word = "";
+        this.definition = "";
+        this.examples = [];
+    }
+    
+    getWord(){
+        
+    }
+    
+    getDefinition(){
+        
+    }
+    
+    getExamples(){
+        
     }
 }
 

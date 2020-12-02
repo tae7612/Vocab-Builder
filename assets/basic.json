@@ -1,0 +1,120 @@
+{
+  "category": "Basic",
+  "levels": [
+    {
+      "level": "1",
+      "questions": [
+        {
+          "word": "advocate",
+          "correct_answer": "support a cause",
+          "wrong_answers": [
+            "leave quickly",
+            "copy",
+            "misunderstand"
+          ],
+          "example": "While Senator Radge privately approved of gay marriage, he was unwilling to advocate for the cause in public.",
+          "definition": ""
+        },
+        {
+          "word": "constraint",
+          "correct_answer": "limit",
+          "wrong_answers": [
+            "anxiety",
+            "tightness",
+            "defense"
+          ],
+          "example": "We don't have many resources, so we'll have to work with some very tight constraints.",
+          "definition": ""
+        },
+        {
+          "word": "differentiate",
+          "correct_answer": "identify differences between",
+          "wrong_answers": [
+            "very randomly",
+            "create",
+            "disagree"
+          ],
+          "example": "Mozart's long melodies differentiate his compositions from the work of other late 18th century composers.",
+          "definition": ""
+        },
+        {
+          "word": "elaborate",
+          "correct_answer": "detailed",
+          "wrong_answers": [
+            "struggling",
+            "infected",
+            "internal"
+          ],
+          "example": "After returning from Morocco, Thomas replaced his dirty gray carpet with an elaborate one he'd brought back with him.",
+          "definition": ""
+        },
+        {
+          "word": "irrefutable",
+          "correct_answer": "certain",
+          "wrong_answers": [
+            "blocked",
+            "strange",
+            "inferior"
+          ],
+          "example": "The existence of life on earth is irrefutable; the existence of intelligent life on earth is still hotly debated.",
+          "definition": ""
+        },
+        {
+          "word": "anomaly",
+          "correct_answer": "oddity",
+          "wrong_answers": [
+            "retirement",
+            "agreement",
+            "forgetfulness"
+          ],
+          "example": "After Sally found an anomaly in the data, she had to redo the entire experiment.",
+          "definition": ""
+        },
+        {
+          "word": "economical",
+          "correct_answer": "avoiding waste",
+          "wrong_answers": [
+            "rich",
+            "religious",
+            "common"
+          ],
+          "example": "Journalists favor an economical style of writing, in which no unnecessary words are used and every sentence is as short as possible.",
+          "definition": ""
+        },
+        {
+          "word": "catalyst",
+          "correct_answer": "cause of a process",
+          "wrong_answers": [
+            "ancestor",
+            "guarantee",
+            "bright color"
+          ],
+          "example": "Rosa Park’s refusal to give up her bus seat acted as a catalyst for the Civil Rights Movement, setting into motion historic changes for African-Americans.",
+          "definition": ""
+        },
+        {
+          "word": "laborious",
+          "correct_answer": "demanding",
+          "wrong_answers": [
+            "skilled",
+            "radical",
+            "knowledgable"
+          ],
+          "example": "The most laborious job I've had was working 20 hours a day as a fisherman in Alaska.",
+          "definition": ""
+        },
+        {
+          "word": "degrade",
+          "correct_answer": "humiliate",
+          "wrong_answers": [
+            "descend",
+            "flatten",
+            "inspect"
+          ],
+          "example": "Jesse mockingly listed all of Nancy's faults in front of their friends, publicly degrading the poor girl.",
+          "definition": ""
+        }
+      ]
+    }
+  ]
+}

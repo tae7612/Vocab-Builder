@@ -1,7 +1,72 @@
 html, body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2fc;
+    font-family: 'Alegreya', serif;
 }
 canvas {
-  display: block;
+    display: block;
+}
+
+header {
+    background-color: #643573;
+    margin: auto;
+    padding-left: 20px;
+    
+    /* Rectangle 1 */
+    box-shadow: 0px -20px 4px 26px rgba(0, 0, 0, 0.25);
+    
+    font-family: 'Alegreya SC', serif;
+
+}
+
+.logo{
+
+   
+
+}
+
+
+.bg-correct{
+    background-color: #79c059;
+}
+
+#quiz-title{
+    border-radius: 20px 20px 0 0;
+}
+
+#quiz-header{
+    font-family: 'Alegreya SC', serif;
+    font-size: 32px;
+    
+}
+
+.quiz-box{
+    /* Rectangle 14 */
+   
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 75%;
+
+}
+
+
+.quiz-answers{
+    
+   
+    
+}
+
+.quiz-icon{
+    border: 1px solid lightgray;
+}
+
+
+@media only screen and (max-width: 992px) {
+    
+    .quiz-box{
+        width: 100%;
+    }
+    
 }
