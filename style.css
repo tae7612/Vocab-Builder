@@ -39,7 +39,17 @@ header {
     color: #e22837;
 }
 
-#quiz-title{
+.quiz-next-btn{
+    color: #ffffff;
+    background-color:  #643573;
+    border-radius: 0 0  20px 20px;
+}
+
+.quiz-next-btn:hover{
+    background-color:  #3ab6b2;
+}
+
+.quiz-title{
     border-radius: 20px 20px 0 0;
 }
 

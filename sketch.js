@@ -11,6 +11,7 @@ var q;
 var answers = [];
 var answered = false;
 var nextSet = true;
+var quizNum = 0;
 
 function preload(){
     q = loadJSON("assets/basic.json");
@@ -23,7 +24,9 @@ function setup() {
     search = select('#search');
     searchList = select('#search-list');
     quiz = new Quiz(q.levels[0], q.category);
+    
 }
+
 
 function draw() {
     background("white");
@@ -36,26 +39,83 @@ function draw() {
 
 
 function createQuiz(){
-//    console.log(quiz);
+    
+
     quizHeader = select("#quiz-header");
     quizHeader.html("<p>"+ quiz.getName()+"</p>");
     questions = quiz.getQuestions();
-    setQuiz(questions[0]);
+    
+    setQuiz(questions[quizNum]);
+//    console.log(quiz.getAnswers("degrade"));
+//    for( var question of questions ){
+//        
+//            setQuiz(question);
+//   
+//        
+//    }
+    
     
 }
 
 function setQuiz(question){
     
     if(nextSet){
+        answers = [];
         answers = quiz.getAnswers(question);
         nextSet = false;
     }
-    
+//    console.log(quizNum);
+//    console.log(question);
+    nextBtn = select('#quiz-next');
     quizWord = select("#quiz-word");
     quizWord.html(question.charAt(0).toUpperCase() + question.slice(1));
+    if(answered){
+        nextQuestion = quizNum + 1;
+        nextBtn.removeClass("d-none");
+        nextBtn.mousePressed(function() {
+            resetQuizElements();
+            
+            quizNum = nextQuestion;
+            nextBtn.addClass("d-none");
+            
+        });
+    }
     
     setQuizBtns(answers, quiz.getCorrect(question));
    
+}
+
+function resetQuizElements(){
+    answered = false;
+    nextSet = true;
+    
+    aBtn = select('#aBtn');
+    bBtn = select('#bBtn');
+    cBtn = select('#cBtn');
+    dBtn = select('#dBtn');
+    
+    aLabel = select('#aLabel');
+    bLabel = select('#bLabel');
+    cLabel = select('#cLabel');
+    dLabel = select('#dLabel');
+    
+    btns = [aBtn,bBtn,cBtn,dBtn];
+    labels = [aLabel,bLabel,cLabel,dLabel];
+    
+     btns.forEach(function(btn, index, arr){
+        btn.removeAttribute('disabled');
+        btn.removeAttribute('checked', '');
+         btn.checked = false;
+         btn.removeAttribute('selected');
+    });
+    
+    labels.forEach(function(label, index, arr){
+        label.removeClass('text-wrong');
+        label.removeClass('text-correct');
+    });
+    
+    
+    
 }
 
 function setQuizBtns(answers, correct){
@@ -64,11 +124,7 @@ function setQuizBtns(answers, correct){
     aBtn.value(answers[0])
     aLabel = select('#aLabel');
     aLabel.html(answers[0]);
-    aBtn.mousePressed(function() {
-        console.log(aBtn.value());
-        checkAnswer(aBtn.value(), correct);
-        
-    });
+   
     
     
      //B
@@ -76,23 +132,14 @@ function setQuizBtns(answers, correct){
     bBtn.value(answers[1])
     bLabel = select('#bLabel');
     bLabel.html(answers[1]);
-    bBtn.mousePressed(function() {
-        console.log(bBtn.value());
-        checkAnswer(bBtn.value(), correct);
-        
-    });
-    
+   
     
      //C
     cBtn = select('#cBtn');
     cBtn.value(answers[2])
     cLabel = select('#cLabel');
     cLabel.html(answers[2]);
-    cBtn.mousePressed(function() {
-        console.log(cBtn.value());
-        checkAnswer(cBtn.value(), correct);
-        
-    });
+    
     
     
      //D
@@ -100,20 +147,43 @@ function setQuizBtns(answers, correct){
     dBtn.value(answers[3])
     dLabel = select('#dLabel');
     dLabel.html(answers[3]);
-    dBtn.mousePressed(function() {
-        console.log(dBtn.value());
-        checkAnswer(dBtn.value(), correct);
+   
+    
+    
+    if(!answered){
         
-    });
+         aBtn.mousePressed(function() {
+            console.log(aBtn.value());
+            checkAnswer(aBtn.value(), correct);
+         });
+        
+         bBtn.mousePressed(function() {
+            console.log(bBtn.value());
+            checkAnswer(bBtn.value(), correct);
+        
+         });
     
-    
-    if(answered){
-
+        cBtn.mousePressed(function() {
+            console.log(cBtn.value());
+            checkAnswer(cBtn.value(), correct);
+        
+        });
+        
+        dBtn.mousePressed(function() {
+            console.log(dBtn.value());
+            checkAnswer(dBtn.value(), correct);
+        
+        });
     }
 }
 
 
 function checkAnswer(answer, correct){
+    
+    
+    if(answers.includes(correct)){
+        
+    
     answered = true;
     // Answer Buttons
     aBtn = select('#aBtn');
@@ -129,14 +199,17 @@ function checkAnswer(answer, correct){
     btns = [aBtn,bBtn,cBtn,dBtn];
     labels = [aLabel,bLabel,cLabel,dLabel];
     
+   
     var correctIndex = answers.findIndex(function(element, index, array){
         return element == correct;
     },correct);
     
-//    console.log(answers);
-//    console.log(correct);
+    console.log(answers);
+    console.log(correct);
     
     // Correct Label
+    console.log(correctIndex);
+    console.log(labels[correctIndex]);
     correctLabel = labels[correctIndex];
     correctLabel.addClass('text-correct');
     // Correct Button
@@ -156,6 +229,8 @@ function checkAnswer(answer, correct){
             {
                 btn.attribute('disabled', '');
             }
+    }
+        
     }
 }
 
