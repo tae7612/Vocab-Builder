@@ -14,10 +14,26 @@
 
   </head>
   <body>
-      <header>
-        <img class="logo pb-1 " src="assets/img/Vocab-Builder-Logo.png">
+      
+<!--     HEADER        -->
+      <header class="m-0">
+          <div class="container m-0">
+              <div class="row align-items-center">
+                  <div class="col-4">
+                      <a><img class="logo pb-1 " src="assets/img/Vocab-Builder-Logo.png"></a>
+                  </div>
+                  <div class="col-8">
+                      <nav>
+                          <a class="mx-5 text-decoration-none">Play</a>
+                          <a class="mx-5 text-decoration-none">Search</a>
+                          <a class="mx-5 text-decoration-none">Account</a>
+                      </nav>
+                  </div>
+              </div> 
+          </div>
       </header>
       
+<!--      USER MODAL        -->
       <div id ="userNameModal"  >
           <div id ="userNameForm"  class="container p-2 my-5 ">
           <div class="p-4">
@@ -34,6 +50,12 @@
       </div>
       
       
+      
+      
+<!--      ACCOUNT         -->      
+      
+      
+<!--      QUIZ          -->
       <div class="container">
       
         <div id = "quiz-header" class=" m-4">
@@ -114,7 +136,7 @@
       
       </div>
       
-    
+ <!--      QUIZ RESULTS         -->   
       <div id="quiz-results" class="container d-none">
           
         <div class="quiz-box mx-auto">
@@ -139,7 +161,7 @@
       
       </div>
       
-      
+<!--      SEARCH        -->   
       <div class="d-none">
       <div class="input-group mb-3 mt-5 px-4">
         <input type="text" id= "search" class="form-control" placeholder="Search Word" aria-label="Search" aria-describedby="button-addon2">
