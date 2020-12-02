@@ -106,6 +106,11 @@ function setQuizBtns(answers, correct){
         
     });
     
+    
+    if(answered){
+
+    }
+}
 
 
 function checkAnswer(answer, correct){
