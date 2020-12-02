@@ -1,3 +1,6 @@
+var user;
+
+
 var query = '';
 var search;
 var resultObj = []
@@ -14,7 +17,7 @@ var cor = false;
 var nextSet = true;
 var quizNum = 0;
 var score = 0;
-
+var userSubmit;
 function preload(){
     q = loadJSON("assets/basic.json");
     console.log(q);
@@ -25,6 +28,35 @@ function setup() {
     createCanvas(0, 0);
     search = select('#search');
     searchList = select('#search-list');
+    
+    
+    
+    userSubmit = select('#userNameSubmit');
+    userSubmit.mousePressed(function(){
+        input = select('#userNamePrompt');
+        console.log(input.value().trim());
+//        if(input.value().trim() != ""){
+            
+            modal = select('#userNameModal');
+            form = select("#userNameForm");
+            modal.addClass('d-none');
+            form.addClass('d-none');
+//            
+//            user = new User(input.value().trim());
+//            
+//        }else{
+//            smallText = select('#userPromptText');
+//            smallText.html("<u>Please enter a valid username</u>");
+//            smallText.removeClass('text-muted');
+//            smallText.addClass('text-wrong');
+//            smallText.addClass('text-uppercase');
+//            smallText.addClass('font-weight-bold');
+//        }
+//        
+//        
+    });
+    
+    
     quiz = new Quiz(q.levels[0], q.category);
     
     
@@ -52,6 +84,7 @@ function createQuiz(){
     questions = quiz.getQuestions();
     
     if(nextSet && cor){
+        console.log(cor);
         score++;  
     }
     
@@ -185,24 +218,24 @@ function setQuizBtns(answers, correct){
     if(!answered){
         
          aBtn.mousePressed(function() {
-            console.log(aBtn.value());
+//            console.log(aBtn.value());
             checkAnswer(aBtn.value(), correct);
          });
         
          bBtn.mousePressed(function() {
-            console.log(bBtn.value());
+//            console.log(bBtn.value());
             checkAnswer(bBtn.value(), correct);
         
          });
     
         cBtn.mousePressed(function() {
-            console.log(cBtn.value());
+//            console.log(cBtn.value());
             checkAnswer(cBtn.value(), correct);
         
         });
         
         dBtn.mousePressed(function() {
-            console.log(dBtn.value());
+//            console.log(dBtn.value());
             checkAnswer(dBtn.value(), correct);
         
         });
@@ -236,12 +269,12 @@ function checkAnswer(answer, correct){
         return element == correct;
     },correct);
     
-    console.log(answers);
-    console.log(correct);
+//    console.log(answers);
+//    console.log(correct);
     
     // Correct Label
-    console.log(correctIndex);
-    console.log(labels[correctIndex]);
+//    console.log(correctIndex);
+//    console.log(labels[correctIndex]);
     correctLabel = labels[correctIndex];
     correctLabel.addClass('text-correct');
     // Correct Button
@@ -447,6 +480,15 @@ class Word{
     
     getExamples(){
         
+    }
+}
+
+
+class User{
+    constructor(name){
+        this.name = name;
+        this.review = new Map();
+        this.fav = new Map();
     }
 }
 
