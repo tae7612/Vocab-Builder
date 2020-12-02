@@ -8,13 +8,14 @@ var searchResults = [];
 var previous = '';
 var searchList;
 
-
+var play = false;
 var quiz;
 var q;
 var answers = [];
 var answered = false;
 var cor = false;
 var nextSet = true;
+var newWord = true;
 var quizNum = 0;
 var score = 0;
 var userSubmit;
@@ -29,21 +30,20 @@ function setup() {
     search = select('#search');
     searchList = select('#search-list');
     
-    
+    user = new User("guest")
     
     userSubmit = select('#userNameSubmit');
     userSubmit.mousePressed(function(){
         userInput = select('#userNamePrompt');
-        console.log(input.value().trim());
-        if(input.value().trim() != ""){
+        if(userInput.value().trim() != ""){
             
             modal = select('#userNameModal');
             form = select("#userNameForm");
             modal.addClass('d-none');
             form.addClass('d-none');
             
-            user = new User(input.value().trim());
-            
+            user = new User(userInput.value().trim());
+            play = true;
         }else{
             smallText = select('#userPromptText');
             smallText.html("<u>Please enter a valid username</u>");
@@ -66,8 +66,10 @@ function setup() {
 function draw() {
     background("white");
     
+    if(play){
+        createQuiz();
+    }
     
-    createQuiz();
     
            
     
@@ -75,7 +77,6 @@ function draw() {
 
 
 function createQuiz(){
-    console.log(quizNum);
     quizBox = select("#quiz");
     quizResults = select("#quiz-results");
     
@@ -89,7 +90,7 @@ function createQuiz(){
     }
     
     if(quizNum >= questions.length){
-        
+            console.log(user);
             quizBox.addClass("d-none");
             quizResults.removeClass("d-none");
             results = select('#quiz-score');
@@ -125,9 +126,34 @@ function setQuiz(question){
         answers = quiz.getAnswers(question);
         nextSet = false;
         
+        userReviews = user.getReviews();
+        //If it has reviews had the word, it is not new
+        newWord = !userReviews.has(question);
+        console.log(newWord)
+        console.log(user);
+        if(newWord){
+            user.addNewWord(question, quiz.getName());
+            
+        }
+             
     }
 //    console.log(quizNum);
 //    console.log(question);
+    
+    
+    reviewStatus = select('#quiz-title-status');
+//    console.log(reviewStatus.html());
+     if(newWord){
+         reviewStatus.html("New Word!");
+     }else{
+         reviewStatus.html("Review!");
+     }
+        
+    
+//    
+    
+    
+    
     nextBtn = select('#quiz-next');
     quizWord = select("#quiz-word");
     quizWord.html(question.charAt(0).toUpperCase() + question.slice(1));
@@ -165,8 +191,8 @@ function resetQuizElements(){
     labels = [aLabel,bLabel,cLabel,dLabel];
     
      btns.forEach(function(btn, index, arr){
-        btn.removeAttribute('disabled');
-        btn.removeAttribute('checked', '');
+         btn.removeAttribute('disabled');
+         btn.removeAttribute('checked', '');
          btn.checked = false;
          btn.removeAttribute('selected');
     });
@@ -419,15 +445,15 @@ class Quiz{
         this.example = new Map();
         for(var item of data.questions){
             this.questions.push(item.word);
-            this.correct.set(item.word, item.correct_answer)
+            this.correct.set(item.word, item.correct_answer);
             this.answerList.set(item.word, item.wrong_answers);
             this.defintion.set(item.word, item.definition);
             this.example.set(item.word, item.example);
         }
     }
     
-    setOrder(){
-        
+    getName(){
+        return this.quizName;
     }
     
     getName(){
@@ -486,6 +512,16 @@ class User{
         this.name = name;
         this.review = new Map();
         this.fav = new Map();
+    }
+    
+    getReviews(){
+        return this.review;
+    }
+    
+    addNewWord(key, wordlist){
+        
+        this.review.set(key, wordlist);
+        
     }
 }
 
