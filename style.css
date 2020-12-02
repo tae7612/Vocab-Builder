@@ -19,8 +19,14 @@ header {
 
 }
 
-header nav a{
+header nav button{
     font-family: 'Alegreya SC', serif;
+    color: #ffffff;
+    font-size: 28px;
+}
+
+.nav-btn{
+     font-family: 'Alegreya SC', serif;
     color: #ffffff;
     font-size: 28px;
 }

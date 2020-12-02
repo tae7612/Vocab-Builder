@@ -19,6 +19,18 @@ var newWord = true;
 var quizNum = 0;
 var score = 0;
 var userSubmit;
+
+
+var accountNav;
+var searchNav;
+var quizNav;
+
+var accountPage;
+var searchPage;
+var quizPage;
+
+
+
 function preload(){
     q = loadJSON("assets/basic.json");
     console.log(q);
@@ -27,6 +39,37 @@ function preload(){
 }
 function setup() {
     createCanvas(0, 0);
+    
+    accountPage = select('#account-page');
+    accountNav = select('#account-nav');
+   
+    searchPage = select('#search-page');
+    searchNav = select('#search-nav');
+    
+    
+    
+    quizPage = select('#quiz-page');
+    quizNav = select('#play-nav');
+   
+    
+     accountNav.mousePressed(function(){
+        searchPage.addClass("d-none");
+        quizPage.addClass("d-none");
+        accountPage.removeClass("d-none");
+    });
+    
+    searchNav.mousePressed(function(){
+         searchPage.removeClass("d-none");
+        quizPage.addClass("d-none");
+        accountPage.addClass("d-none");
+    });
+    
+     quizNav.mousePressed(function(){
+        searchPage.addClass("d-none");
+        quizPage.removeClass("d-none");
+        accountPage.addClass("d-none");
+     });
+    
     search = select('#search');
     searchList = select('#search-list');
     
@@ -68,6 +111,8 @@ function draw() {
     
     if(play){
         createQuiz();
+        createAccount();
+        createSearchPage();
     }
     
     
@@ -75,6 +120,19 @@ function draw() {
     
 }
 
+
+function createAccount(){
+    userNameBox = select("#user-name");
+    userReviewsList = select("#user-reviews");
+    userReviewsList.html("");
+    userNameBox.html(user.getName());
+    reviews = user.getReviews().keys();
+    for(word of reviews){
+        userReviewsList.html("<li class=\"list-group-item\">"+word.charAt(0).toUpperCase() + word.slice(1)+"</li>", true);
+    }
+    
+
+}
 
 function createQuiz(){
     quizBox = select("#quiz");
@@ -328,7 +386,7 @@ function checkAnswer(answer, correct){
 
 
 
-function searchPage(){
+function createSearchPage(){
     query = search.value();
     if(query != previous){
         previous = query;
@@ -513,6 +571,12 @@ class User{
         this.review = new Map();
         this.fav = new Map();
     }
+    
+    
+    getName(){
+        return this.name;
+    }
+    
     
     getReviews(){
         return this.review;
