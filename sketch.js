@@ -33,27 +33,27 @@ function setup() {
     
     userSubmit = select('#userNameSubmit');
     userSubmit.mousePressed(function(){
-        input = select('#userNamePrompt');
+        userInput = select('#userNamePrompt');
         console.log(input.value().trim());
-//        if(input.value().trim() != ""){
+        if(input.value().trim() != ""){
             
             modal = select('#userNameModal');
             form = select("#userNameForm");
             modal.addClass('d-none');
             form.addClass('d-none');
-//            
-//            user = new User(input.value().trim());
-//            
-//        }else{
-//            smallText = select('#userPromptText');
-//            smallText.html("<u>Please enter a valid username</u>");
-//            smallText.removeClass('text-muted');
-//            smallText.addClass('text-wrong');
-//            smallText.addClass('text-uppercase');
-//            smallText.addClass('font-weight-bold');
-//        }
-//        
-//        
+            
+            user = new User(input.value().trim());
+            
+        }else{
+            smallText = select('#userPromptText');
+            smallText.html("<u>Please enter a valid username</u>");
+            smallText.removeClass('text-muted');
+            smallText.addClass('text-wrong');
+            smallText.addClass('text-uppercase');
+            smallText.addClass('font-weight-bold');
+        }
+        
+        
     });
     
     
@@ -75,7 +75,7 @@ function draw() {
 
 
 function createQuiz(){
-
+    console.log(quizNum);
     quizBox = select("#quiz");
     quizResults = select("#quiz-results");
     
@@ -84,8 +84,8 @@ function createQuiz(){
     questions = quiz.getQuestions();
     
     if(nextSet && cor){
-        console.log(cor);
-        score++;  
+            score++;  
+            cor = false;
     }
     
     if(quizNum >= questions.length){
@@ -107,16 +107,13 @@ function createQuiz(){
             });
     
     }else{
+        
+        
+        
         setQuiz(questions[quizNum]);    
     }
     
-//    console.log(quiz.getAnswers("degrade"));
-//    for( var question of questions ){
-//        
-//            setQuiz(question);
-//   
-//        
-//    }
+
     
     
 }
@@ -127,7 +124,7 @@ function setQuiz(question){
         answers = [];
         answers = quiz.getAnswers(question);
         nextSet = false;
-        cor = false;
+        
     }
 //    console.log(quizNum);
 //    console.log(question);
