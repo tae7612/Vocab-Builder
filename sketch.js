@@ -10,8 +10,10 @@ var quiz;
 var q;
 var answers = [];
 var answered = false;
+var cor = false;
 var nextSet = true;
 var quizNum = 0;
+var score = 0;
 
 function preload(){
     q = loadJSON("assets/basic.json");
@@ -25,11 +27,13 @@ function setup() {
     searchList = select('#search-list');
     quiz = new Quiz(q.levels[0], q.category);
     
+    
 }
 
 
 function draw() {
     background("white");
+    
     
     createQuiz();
     
@@ -39,13 +43,40 @@ function draw() {
 
 
 function createQuiz(){
-    
 
+    quizBox = select("#quiz");
+    quizResults = select("#quiz-results");
+    
     quizHeader = select("#quiz-header");
     quizHeader.html("<p>"+ quiz.getName()+"</p>");
     questions = quiz.getQuestions();
     
-    setQuiz(questions[quizNum]);
+    if(nextSet && cor){
+        score++;  
+    }
+    
+    if(quizNum >= questions.length){
+        
+            quizBox.addClass("d-none");
+            quizResults.removeClass("d-none");
+            results = select('#quiz-score');
+            results.html(" "+score+" / "+questions.length);
+            playAgainBtn = select("#quiz-play-again");
+            playAgainBtn.mousePressed(function() {
+                score = 0;
+                quizNum = 0;
+                answered = false;
+                answers = [];
+                nextSet = true;
+                cor = false;
+                quizResults.addClass("d-none");
+                quizBox.removeClass("d-none");
+            });
+    
+    }else{
+        setQuiz(questions[quizNum]);    
+    }
+    
 //    console.log(quiz.getAnswers("degrade"));
 //    for( var question of questions ){
 //        
@@ -63,6 +94,7 @@ function setQuiz(question){
         answers = [];
         answers = quiz.getAnswers(question);
         nextSet = false;
+        cor = false;
     }
 //    console.log(quizNum);
 //    console.log(question);
@@ -222,6 +254,8 @@ function checkAnswer(answer, correct){
         },answer);
         ansLabel = labels[ansIndex];
         ansLabel.addClass('text-wrong');
+    }else{
+        cor = true;
     }
     
     for(var btn of btns){

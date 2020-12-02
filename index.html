@@ -18,6 +18,9 @@
         <img class="logo pb-1 " src="assets/img/Vocab-Builder-Logo.png">
       </header>
       
+      
+      
+      
       <div class="container">
       
         <div id = "quiz-header" class=" m-4">
@@ -27,7 +30,7 @@
       
       
       <div class=" container ">
-        <div class="quiz-box mx-auto">
+        <div id="quiz" class=" quiz-box mx-auto">
           
             <div id="quiz-title " class=" bg-light quiz-title">
                 <p class="h3 text-center p-3 text-muted"> Review </p>
@@ -36,15 +39,15 @@
             <div class="container pb-3 ">
                 <div class="row"> 
                     <div class="col-11">
-                <row>
+                <div class="row pl-3">
                     <div class ="pl-3 pt-4 h4 lead"><p>Choose the best definition</p></div>
-                </row>
+                </div>
                 
-                <row>
+                <div class="row pl-3">
                     <div class="quiz-question h3 pl-3"><p class="font-weight-light"><span id="quiz-word" class=" font-weight-bold">Economical</span> means:</p></div>
-                </row>
+                </div>
                 
-                <row>
+                <div class="row pl-3">
     
                     <div class= "quiz-answers pl-3 h5 font-weight-lighter">
                         <div  class="form-check mb-3">
@@ -65,10 +68,10 @@
                         </div>
                     </div>
                     
-                </row>
+                </div>
                 
                 
-                <row>
+                <div>
                     <div class="col-sm align-items-end">
                         <span>Not sure? Get a Hint:</span>
                         <a class="quiz-icon m-1 py-2 px-1"><img class="inline-block pb-2" src="assets/img/icons/coin.png"><span class="h6"> 50/50</span></a>
@@ -77,7 +80,7 @@
                     
                     
                 
-                </row>
+                </div>
                     </div>
                     
                     <div class="col-1 ">
@@ -93,11 +96,36 @@
           
         
         </div>
+          
       
       
       </div>
       
     
+      <div id="quiz-results" class="container d-none">
+          
+        <div class="quiz-box mx-auto">
+          
+            <div id="quiz-title " class=" bg-light quiz-title">
+                <p class="h3 text-center  p-3 text-muted"> Results </p>
+            </div>
+            
+            <div class="container pb-3 ">
+                
+                <div class="row pl-3">
+                    <div class="quiz-question h1 p-4"><p class="font-weight-bold">Score: <span id="quiz-score" class=" font-weight-light"> 10/10</span></p></div>
+                </div>
+                
+            </div>
+            
+            <div id="quiz-play-again" class="quiz-play-again-btn ">
+                <p class="h5 text-center p-3 "> Play Again  <i class="align-middle fas fa-angle-right"></i></p>
+            </div>
+      
+          </div>
+      
+      </div>
+      
       
       <div class="d-none">
       <div class="input-group mb-3 mt-5 px-4">
