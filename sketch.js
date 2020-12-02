@@ -122,7 +122,7 @@ function checkAnswer(answer, correct){
     dBtn = select('#dBtn');
     
     aLabel = select('#aLabel');
-    bLabel = select('#bLable');
+    bLabel = select('#bLabel');
     cLabel = select('#cLabel');
     dLabel = select('#dLabel');
     
@@ -133,8 +133,9 @@ function checkAnswer(answer, correct){
         return element == correct;
     },correct);
     
-    console.log(answers);
-    console.log(correct);
+//    console.log(answers);
+//    console.log(correct);
+    
     // Correct Label
     correctLabel = labels[correctIndex];
     correctLabel.addClass('text-correct');
@@ -146,7 +147,6 @@ function checkAnswer(answer, correct){
         var ansIndex = answers.findIndex(function(element, index, array){
             return element == answer;
         },answer);
-        console.log(labels[ansIndex]);
         ansLabel = labels[ansIndex];
         ansLabel.addClass('text-wrong');
     }
