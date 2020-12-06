@@ -50,13 +50,75 @@
               </div>
       </div>
       
+            
+<!--      HOME PAGE       -->     
       
+      <div id="home-page" class="container">
+          
+          <div class="row justify-content-around">
+              <div class="category-box card my-5" style="">
+                  <div class="card-body">
+                      <h1 class="card-title font-weight-bolder">Basic Words</h1>
+                      <h4 class="card-subtitle mb-2 font-weight-light">5 of 5 Levels Completed</h4>
+                      <div class="progress category-progress border border-dark" style="">
+                          <div class="progress-bar bg-correct" role="progressbar" style="width: 25%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      
+                  </div>
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button>
+              </div>
+              
+              
+              <div class="category-box card my-5" style="">
+                  <div class="card-body">
+                      <h1 class="card-title font-weight-bolder">Common Words</h1>
+                      <h4 class="card-subtitle mb-2 font-weight-light">5 of 5 Levels Completed</h4>
+                      <div class="progress category-progress border border-dark" style="">
+                          <div class="progress-bar bg-correct" role="progressbar" style="width: 25%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      
+                  </div>
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button>
+              </div>
+              
+          </div>
+          
+          
+          <div class="row justify-content-around">
+              
+              <div class="category-box card my-5" style="">
+                  <div class="card-body">
+                      <h1 class="card-title font-weight-bolder">Intermediate Words</h1>
+                      <h4 class="card-subtitle mb-2 font-weight-light">5 of 5 Levels Completed</h4>
+                      <div class="progress category-progress border border-dark" style="">
+                          <div class="progress-bar bg-correct" role="progressbar" style="width: 25%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                        
+                  </div>
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button> 
+              </div>
+              
+              
+              <div class="category-box card my-5" style="">
+                  <div class="card-body">
+                      <h1 class="card-title font-weight-bolder">Advanced Words</h1>
+                      <h4 class="card-subtitle mb-2 font-weight-light">5 of 5 Levels Completed</h4>
+                      <div class="progress category-progress border border-dark" style="">
+                          <div class="progress-bar bg-correct" role="progressbar" style="width: 25%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      
+                  </div>
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button>
+              </div>
+          </div>
+      
+      </div>
       
       
 <!--      ACCOUNT         -->     
       
       
-      <div id="account-page" class="container d-none ">
+      <div id="account-page" class="container d-none">
           
           <div class="row m-5">
               <p class="h4">Welcome <span id="user-name">User</span>!!!!</p>
@@ -80,7 +142,7 @@
 <!--      QUIZ          -->
       
       
-      <div id="quiz-page" >
+      <div id="quiz-page" class="d-none">
       <div class="container">
       
         <div id = "quiz-header" class=" m-4">
@@ -194,19 +256,16 @@
 <!--      SEARCH        -->   
       
       <div >
-      <div id="search-page" class="d-none">
-      <div class="input-group mb-3 mt-5 px-4">
-        <input type="text" id= "search" class="form-control" placeholder="Search Word" aria-label="Search" aria-describedby="button-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="speak">Speak</button>
-        </div>
-      </div>
-      
-      <div class="mx-5" style="">
-        <ul class="list-group list-group-flush" id="search-list">
-        </ul>
-      </div>
-          
+          <div id="search-page" class="d-none">
+              <div class="input-group my-5 px-5">
+                  <input type="text" id= "search" class="form-control" placeholder="Search Word" aria-label="Search" aria-describedby="button-addon2">
+                  <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="button" id="speak">Speak</button>
+                  </div>
+              </div>
+              
+              <div class="mx-5" id="search-list" style="">   
+              </div>
           </div>
       
     
