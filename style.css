@@ -40,7 +40,18 @@ header nav button{
 }
 
 
+
 .bg-correct{
+    background-color: #79c059;
+    color: #ffffff;
+}
+
+.bg-wrong{
+    background-color: #e22837;
+    color: #ffffff;
+}
+
+.bg-progress{
     background-color: #79c059;
 }
 

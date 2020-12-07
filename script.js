@@ -46,14 +46,6 @@ function displayHomePage(){
 
 
 
-function displaySearchResults(item){
-    console.log(searchList);
-    selectCategory(item);
-}
-
-
-
-
 function displayCategory(itemName){
     hidePages();
     document.getElementById("category-page").classList.remove("d-none");
@@ -77,5 +69,19 @@ function displayQuiz(itemName, index){
     
     currentQuiz = item.levels[index];
     play = true;
+}
+
+
+
+
+
+function displaySearchResults(item){
+    console.log(searchList);
+}
+
+
+function displaySearchPage(){
+    hidePages();
+    document.getElementById("search-page").classList.remove("d-none");
 }
 

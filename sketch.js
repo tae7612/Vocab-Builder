@@ -238,27 +238,43 @@ function createQuiz(quiz){
     }
     
     if(quizNum >= questions.length){
-            console.log(user);
-            quizBox.addClass("d-none");
-            quizResults.removeClass("d-none");
-            results = select('#quiz-score');
-            results.html(" "+score+" / "+questions.length);
-            playAgainBtn = select("#quiz-play-again");
-            playAgainBtn.mousePressed(function() {
-                score = 0;
-                quizNum = 0;
-                answered = false;
-                answers = [];
-                nextSet = true;
-                cor = false;
-                quizResults.addClass("d-none");
-                quizBox.removeClass("d-none");
-            });
-    
+
+        quizBox.addClass("d-none");
+        quizResults.removeClass("d-none");
+        results = select('#quiz-score');
+        results.html(" "+score+" / "+questions.length);
+        
+        resultsMessage = select("#results-message");
+        mastered = quiz.getMastered();
+        
+        
+        if(score >= questions.length){
+            resultsMessage.html("Amazing! One step closer to being a Vocabulary Master!");
+        }else if(score >= mastered){
+            resultsMessage.html("Great Job! You're slowly improving, keep practicing!");
+        }else{
+            resultsMessage.html("Uh-oh! It's time to do some reviews!");
+        }
+        
+        quiz.setMastered(score);
+        
+        
+        
+        
+        playAgainBtn = select("#quiz-play-again");
+        playAgainBtn.mousePressed(function() {
+            score = 0;
+            quizNum = 0;
+            answered = false;
+            answers = [];
+            nextSet = true;
+            cor = false;
+            quizResults.addClass("d-none");
+            quizBox.removeClass("d-none");
+        });
+        
     }else{
-        
-        
-        
+
         setQuiz(questions[quizNum], quiz);    
     }
     
@@ -277,36 +293,40 @@ function setQuiz(question, quiz){
         userReviews = user.getReviews();
         //If it has reviews had the word, it is not new
         newWord = !userReviews.has(question);
-        console.log(newWord)
+        
+        
+        quizWord = select("#quiz-word");
+        quizWord.html(question.charAt(0).toUpperCase() + question.slice(1));
+        
+        reviewContainer = select('#quiz-title-container');
+        reviewContainer.addClass('bg-light');
+        reviewContainer.removeClass('bg-wrong');
+        reviewContainer.removeClass('bg-correct');
+        
+        
+        reviewStatus = select('#quiz-title-status');
+        reviewStatus.addClass('text-muted');
+       
+        
+        
         if(newWord){
+            reviewStatus.html("New Word!");
             user.addNewWord(question, quiz.getName());
             
+        }else{
+         reviewStatus.html("Review!");
         }
+        
+        
+        quizRadio = select('#quiz-radio');
+        quizRadio.html('<div id= "quiz-radio" class= "quiz-answers pl-3 h5 font-weight-lighter"><div  class="form-check mb-3"><input id= "aBtn" class="form-check-input" name="answers"  type="radio" value="'+answers[0]+'" ><label id= "aLabel" class="form-check-label" >'+answers[0]+'</label></div><div  class="form-check mb-3"><input id= "bBtn" class="form-check-input " name="answers"  type="radio" value="'+answers[1]+'" ><label id= "bLabel" class="form-check-label " for="bBtn">'+answers[1]+'</label></div><div  class="form-check mb-3"><input id= "cBtn" class="form-check-input" name="answers"   type="radio" value="'+answers[2]+'" ><label id= "cLabel" class="form-check-label" for="cBtn">'+answers[2]+'</label></div><div  class="form-check mb-3"><input id= "dBtn" class="form-check-input" name="answers"  type="radio" value="'+answers[3]+'" ><label id= "dLabel" class="form-check-label" for="dBtn">'+answers[3]+'</label></div></div>');
              
     }
-//    console.log(quizNum);
-//    console.log(question);
+
     
-    
-    reviewStatus = select('#quiz-title-status');
-//    console.log(reviewStatus.html());
-     if(newWord){
-         reviewStatus.html("New Word!");
-     }else{
-         reviewStatus.html("Review!");
-     }
-        
-    
-//    
-    
-    quizRadio = select('#quiz-radio');
-    quizRadio.html('<div id= "quiz-radio" class= "quiz-answers pl-3 h5 font-weight-lighter"><div  class="form-check mb-3"><input id= "aBtn" class="form-check-input" name="answers"  type="radio" value="option1" ><label id= "aLabel" class="form-check-label" >avoiding waste</label></div><div  class="form-check mb-3"><input id= "bBtn" class="form-check-input " name="answers"  type="radio" value="option1" ><label id= "bLabel" class="form-check-label " for="bBtn">common</label></div><div  class="form-check mb-3"><input id= "cBtn" class="form-check-input" name="answers"   type="radio" value="option1" ><label id= "cLabel" class="form-check-label" for="cBtn">rich</label></div><div  class="form-check mb-3"><input id= "dBtn" class="form-check-input" name="answers"  type="radio" value="option1" ><label id= "dLabel" class="form-check-label" for="dBtn">religious</label></div></div>');
-    
-//    quizRadio.html("<div id= \"quiz-radio\" class= \"quiz-answers pl-3 h5 font-weight-lighter\"><div  class=\"form-check mb-3\"><input id= \"aBtn\" class=\"form-check-input\" name=\"answers\"  type=\"radio\" value=\"option1\" ><label id= \"aLabel\" class=\"form-check-label\" >avoiding waste</label></div><div  class=\"form-check mb-3\"><input id= \"bBtn\" class=\"form-check-input \" name=\"answers\"  type=\"radio\" value=\"option1\" ><label id= \"bLabel\" class=\"form-check-label \" for=\"bBtn\">common</label></div><div  class=\"form-check mb-3\"><input id= \"cBtn\" class=\"form-check-input\" name=\"answers\"   type=\"radio\" value=\"option1\" ><label id= \"cLabel\" class=\"form-check-label\" for=\"cBtn\">rich</label></div><div  class=\"form-check mb-3\"><input id= \"dBtn\" class=\"form-check-input\" name=\"answers\"  type=\"radio\" value=\"option1\" ><label id= \"dLabel\" class=\"form-check-label\" for=\"dBtn\">religious</label></div></div>");
+    setQuizBtns(answers, quiz.getCorrect(question));
     
     nextBtn = select('#quiz-next');
-    quizWord = select("#quiz-word");
-    quizWord.html(question.charAt(0).toUpperCase() + question.slice(1));
     if(answered){
         nextQuestion = quizNum + 1;
         nextBtn.removeClass("d-none");
@@ -318,8 +338,6 @@ function setQuiz(question, quiz){
             
         });
     }
-    
-    setQuizBtns(answers, quiz.getCorrect(question));
    
 }
 
@@ -327,31 +345,31 @@ function resetQuizElements(){
     answered = false;
     nextSet = true;
     
-    aBtn = select('#aBtn');
-    bBtn = select('#bBtn');
-    cBtn = select('#cBtn');
-    dBtn = select('#dBtn');
-    
-    aLabel = select('#aLabel');
-    bLabel = select('#bLabel');
-    cLabel = select('#cLabel');
-    dLabel = select('#dLabel');
-    
-    btns = [aBtn,bBtn,cBtn,dBtn];
-    labels = [aLabel,bLabel,cLabel,dLabel];
-    
-     btns.forEach(function(btn, index, arr){
-         btn.removeAttribute('disabled');
-         btn.removeAttribute('checked', '');
-         btn.checked = false;
-         btn.removeAttribute('selected');
-    });
-    
-    labels.forEach(function(label, index, arr){
-        label.removeClass('text-wrong');
-        label.removeClass('text-correct');
-    });
-    
+//    aBtn = select('#aBtn');
+//    bBtn = select('#bBtn');
+//    cBtn = select('#cBtn');
+//    dBtn = select('#dBtn');
+//    
+//    aLabel = select('#aLabel');
+//    bLabel = select('#bLabel');
+//    cLabel = select('#cLabel');
+//    dLabel = select('#dLabel');
+//    
+//    btns = [aBtn,bBtn,cBtn,dBtn];
+//    labels = [aLabel,bLabel,cLabel,dLabel];
+//    
+//     btns.forEach(function(btn, index, arr){
+//         btn.removeAttribute('disabled');
+//         btn.removeAttribute('checked', '');
+//         btn.checked = false;
+//         btn.removeAttribute('selected');
+//    });
+//    
+//    labels.forEach(function(label, index, arr){
+//        label.removeClass('text-wrong');
+//        label.removeClass('text-correct');
+//    });
+//    
     
     
 }
@@ -359,35 +377,16 @@ function resetQuizElements(){
 function setQuizBtns(answers, correct){
      //A
     aBtn = select('#aBtn');
-    aBtn.value(answers[0])
-    aLabel = select('#aLabel');
-    aLabel.html(answers[0]);
-   
-    
-    
+  
      //B
     bBtn = select('#bBtn');
-    bBtn.value(answers[1])
-    bLabel = select('#bLabel');
-    bLabel.html(answers[1]);
    
-    
      //C
     cBtn = select('#cBtn');
-    cBtn.value(answers[2])
-    cLabel = select('#cLabel');
-    cLabel.html(answers[2]);
-    
-    
-    
+ 
      //D
     dBtn = select('#dBtn');
-    dBtn.value(answers[3])
-    dLabel = select('#dLabel');
-    dLabel.html(answers[3]);
-   
-    
-    
+
     if(!answered){
         
          aBtn.mousePressed(function() {
@@ -453,6 +452,10 @@ function checkAnswer(answer, correct){
     // Correct Button
     correctBtn = btns[correctIndex];
     correctBtn.attribute('checked', '');
+        
+        
+    reviewContainer = select('#quiz-title-container');
+    reviewStatus = select('#quiz-title-status');
     
     if(answer != correct){
         var ansIndex = answers.findIndex(function(element, index, array){
@@ -460,7 +463,16 @@ function checkAnswer(answer, correct){
         },answer);
         ansLabel = labels[ansIndex];
         ansLabel.addClass('text-wrong');
+        
+        reviewStatus.removeClass('text-muted');
+        reviewStatus.html("Incorrect!");
+        reviewContainer.removeClass('bg-light');
+        reviewContainer.addClass('bg-wrong');
     }else{
+        reviewStatus.removeClass('text-muted');
+        reviewStatus.html("Correct!");
+        reviewContainer.removeClass('bg-light');
+        reviewContainer.addClass('bg-correct');
         cor = true;
     }
     
@@ -693,6 +705,10 @@ class Quiz{
     
     getExample(key){
         
+    }
+    
+    setMastered(score){
+        this.mastered = score;
     }
     
     getMastered(){
