@@ -32,3 +32,50 @@ recognition.onresult = function(event) {
 recognition.onspeechend = function() {
   recognition.stop();
 }
+
+
+function hidePages(){
+    var pages = document.getElementsByClassName("page");
+    Array.from(pages).forEach(element => element.classList.add("d-none"));
+}
+
+function displayHomePage(){
+    hidePages();
+    document.getElementById("home-page").classList.remove("d-none");
+}
+
+
+
+function displaySearchResults(item){
+    console.log(searchList);
+    selectCategory(item);
+}
+
+
+
+
+function displayCategory(itemName){
+    hidePages();
+    document.getElementById("category-page").classList.remove("d-none");
+    
+    item = selectCategory(itemName);
+  
+    createCategoryPage(item);
+         
+
+    
+    
+}
+
+
+function displayQuiz(itemName, index){
+    
+    hidePages();
+    document.getElementById("quiz-page").classList.remove("d-none");
+
+    item = selectCategory(itemName);
+    
+    currentQuiz = item.levels[index];
+    play = true;
+}
+

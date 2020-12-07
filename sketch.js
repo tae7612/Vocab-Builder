@@ -1,4 +1,17 @@
+// User Info
+
 var user;
+
+
+//Page
+
+var loaded = false;
+var selectPage = "home";
+
+//Category
+var category = "basic";
+var currentQuiz;
+
 
 
 var query = '';
@@ -10,8 +23,8 @@ var previous = '';
 var searchList;
 
 var play = false;
-var quiz;
-var q;
+//var quiz;
+var basic;
 var answers = [];
 var answered = false;
 var cor = false;
@@ -31,17 +44,21 @@ var accountPage;
 var searchPage;
 var quizPage;
 var homePage;
+var categoryPage;
 
 var favBtns;
 
 
 var json
+var basicCategory;
+
+
 
 
 
 function preload(){
-    q = loadJSON("assets/basic.json");
-    console.log(q);
+    basic = loadJSON("assets/basic.json");
+    
     
     
 }
@@ -61,29 +78,31 @@ function setup() {
     
     quizPage = select('#quiz-page');
     quizNav = select('#play-nav');
+    
+    categoryPage = select('#category-page');
    
     
-     accountNav.mousePressed(function(){
-        searchPage.addClass("d-none");
-        quizPage.addClass("d-none");
-        accountPage.removeClass("d-none");
-        homePage.addClass("d-none");
-    });
-    
-    searchNav.mousePressed(function(){
-         searchPage.removeClass("d-none");
-        quizPage.addClass("d-none");
-        accountPage.addClass("d-none");
-        homePage.addClass("d-none");
-    });
-    
-     quizNav.mousePressed(function(){
-        searchPage.addClass("d-none");
-        quizPage.removeClass("d-none");
-        accountPage.addClass("d-none");
-        homePage.addClass("d-none");
-     });
-    
+//    accountNav.mousePressed(function(){
+//        searchPage.addClass("d-none");
+//        quizPage.addClass("d-none");
+//        accountPage.removeClass("d-none");
+//        homePage.addClass("d-none");
+//    });
+//    
+//    searchNav.mousePressed(function(){
+//         searchPage.removeClass("d-none");
+//        quizPage.addClass("d-none");
+//        accountPage.addClass("d-none");
+//        homePage.addClass("d-none");
+//    });
+//    
+//     quizNav.mousePressed(function(){
+//        searchPage.addClass("d-none");
+//        quizPage.addClass("d-none");
+//        accountPage.addClass("d-none");
+//        homePage.removeClass("d-none");
+//     });
+//    
     search = select('#search');
     searchList = select('#search-list');
     
@@ -100,7 +119,7 @@ function setup() {
             form.addClass('d-none');
             
             user = new User(userInput.value().trim());
-            play = true;
+            loaded = true;
         }else{
             smallText = select('#userPromptText');
             smallText.html("<u>Please enter a valid username</u>");
@@ -113,8 +132,10 @@ function setup() {
         
     });
     
-    
-    quiz = new Quiz(q.levels[0], q.category);
+    basicCategory = new Category(basic);
+    console.log(basicCategory);
+//    quiz = new Quiz(basic.levels[0], basic.category);
+//    console.log(basic);
     
     
 }
@@ -123,10 +144,36 @@ function setup() {
 function draw() {
     background("white");
     
-    if(play){
-        createQuiz();
-        createAccount();
-        createSearchPage();
+    if(loaded){
+        
+            createHomePage();
+            createAccount();
+            createSearchPage();
+        
+        if(play){
+            createQuiz(currentQuiz);
+        }
+            
+        
+//        switch(selectPage){
+//            case "home":
+//                createHomePage();
+//               
+//                createAccount();
+//                createSearchPage();
+//                break;
+//            case "category":
+//                break;
+//                
+//            case "quiz":
+//                 
+//                break;
+//            default:
+//                createHomePage();
+//                break;
+//                
+//        }
+        
     }
     
     
@@ -134,6 +181,10 @@ function draw() {
     
 }
 
+
+function createHomePage(){
+    
+}
 
 function createAccount(){
     userNameBox = select("#user-name");
@@ -148,7 +199,32 @@ function createAccount(){
 
 }
 
-function createQuiz(){
+function selectCategory(itemName){
+    switch(itemName.toLowerCase()){
+        case "basic":
+            return basicCategory;
+            break;
+        default:
+            return basicCategory;
+            break;
+    }
+}
+
+function createCategoryPage(category){
+    
+    categoryName = select("#category-name");
+    categoryLevels = select("#category-levels");
+    
+    categoryName.html(category.categoryName + " Words");
+    categoryLevels.html("");
+    
+    var levels = category.levels;
+    for(var i=0; i< levels.length; i++){
+        categoryLevels.html("<div class=\"card\"><div class=\"card-body\"><h3 class=\"card-title font-weight-bolder\">Level 1</h3><h6 class=\"card-subtitle mb-2 font-weight-light text-muted \">"+levels[i].getMastered()+" of 10 words mastered</h6><div class=\"progress category-progress border border-dark\"><div class=\"progress-bar bg-correct\" role=\"progressbar\" style=\"width:"+ levels[i].getMasteredPer() +"%; \" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div></div></div><div class=\"\"><button onclick=\"displayQuiz(\'"+category.categoryName+"\', \'"+i+"\')\" class=\"card-footer align-middle btn btn-blue w-100\"><span class=\"align-middle h5\">Play</span></button></div></div></div>",true)
+    }
+}
+
+function createQuiz(quiz){
     quizBox = select("#quiz");
     quizResults = select("#quiz-results");
     
@@ -183,7 +259,7 @@ function createQuiz(){
         
         
         
-        setQuiz(questions[quizNum]);    
+        setQuiz(questions[quizNum], quiz);    
     }
     
 
@@ -191,7 +267,7 @@ function createQuiz(){
     
 }
 
-function setQuiz(question){
+function setQuiz(question, quiz){
     
     if(nextSet){
         answers = [];
@@ -202,7 +278,6 @@ function setQuiz(question){
         //If it has reviews had the word, it is not new
         newWord = !userReviews.has(question);
         console.log(newWord)
-        console.log(user);
         if(newWord){
             user.addNewWord(question, quiz.getName());
             
@@ -224,7 +299,10 @@ function setQuiz(question){
     
 //    
     
+    quizRadio = select('#quiz-radio');
+    quizRadio.html('<div id= "quiz-radio" class= "quiz-answers pl-3 h5 font-weight-lighter"><div  class="form-check mb-3"><input id= "aBtn" class="form-check-input" name="answers"  type="radio" value="option1" ><label id= "aLabel" class="form-check-label" >avoiding waste</label></div><div  class="form-check mb-3"><input id= "bBtn" class="form-check-input " name="answers"  type="radio" value="option1" ><label id= "bLabel" class="form-check-label " for="bBtn">common</label></div><div  class="form-check mb-3"><input id= "cBtn" class="form-check-input" name="answers"   type="radio" value="option1" ><label id= "cLabel" class="form-check-label" for="cBtn">rich</label></div><div  class="form-check mb-3"><input id= "dBtn" class="form-check-input" name="answers"  type="radio" value="option1" ><label id= "dLabel" class="form-check-label" for="dBtn">religious</label></div></div>');
     
+//    quizRadio.html("<div id= \"quiz-radio\" class= \"quiz-answers pl-3 h5 font-weight-lighter\"><div  class=\"form-check mb-3\"><input id= \"aBtn\" class=\"form-check-input\" name=\"answers\"  type=\"radio\" value=\"option1\" ><label id= \"aLabel\" class=\"form-check-label\" >avoiding waste</label></div><div  class=\"form-check mb-3\"><input id= \"bBtn\" class=\"form-check-input \" name=\"answers\"  type=\"radio\" value=\"option1\" ><label id= \"bLabel\" class=\"form-check-label \" for=\"bBtn\">common</label></div><div  class=\"form-check mb-3\"><input id= \"cBtn\" class=\"form-check-input\" name=\"answers\"   type=\"radio\" value=\"option1\" ><label id= \"cLabel\" class=\"form-check-label\" for=\"cBtn\">rich</label></div><div  class=\"form-check mb-3\"><input id= \"dBtn\" class=\"form-check-input\" name=\"answers\"  type=\"radio\" value=\"option1\" ><label id= \"dLabel\" class=\"form-check-label\" for=\"dBtn\">religious</label></div></div>");
     
     nextBtn = select('#quiz-next');
     quizWord = select("#quiz-word");
@@ -397,9 +475,6 @@ function checkAnswer(answer, correct){
 }
 
 
-
-
-
 function createSearchPage(){
     query = search.value();
     if(query != previous){
@@ -436,19 +511,12 @@ function createSearchPage(){
             }
             searchList.html(" <div class=\"card mx-5 mb-3\"><h5 class=\"card-header bg-purple\">"+word+"</h5><div class=\"card-body  \"><div class=\"ml-3\"><div class=\"row justify-content-between\"><h5 class=\"ml-3 card-title text-muted\">Definition</h5><div class=\"mr-3\" ><button id=\"fav-"+word+"\" value=\""+word+"\" class=\"btn favBtn text-right btn-blue align-self-end px-5\"><span class=\"h5\">Favorite</span></button></div></div><p class=\"card-text\">"+def+"</p><h5 class=\"card-title text-muted\">Example</h5><p class=\"card-text\">"+example+"</p></div></div></div>",true)
 //            
-            
+            displaySearchResults(searchList);
             
             
         }
         
-            favBtns = select('#fav-'+word);
-            
-//            favBtns.forEach(function(button){
-//                button.addEventListener("click", favClick);
-//            });
-        console.log(favBtns );
-        
-        word=""
+
     }else{
 
         searchList.html("<li class=\"list-group-item px-5 mx-5\">No Results</li>");
@@ -457,8 +525,7 @@ function createSearchPage(){
 }
 
 
-function getSearch()
-{    
+function getSearch(){    
     fetch( "https://api.datamuse.com/words?sp="+query+"*&max=20")
         .then(response => response.json())
         .then(data => getData(data))
@@ -558,6 +625,26 @@ function getQuiz(){
 }
 
 
+
+class Category{
+    constructor(data){
+        this.categoryName = data.category;
+        this.levels = [];
+        this.levelMastered = 0;
+        this.complete = false;
+        for(var i=0; i< data.levels.length;i++){
+            this.levels.push(new Quiz(data.levels[i], data.category));
+        
+        }
+
+    }
+    
+    
+    getQuiz(index){
+        return this.levels[index];
+    }
+}
+
 class Quiz{
     constructor(data, category){
         this.quizName = category+" Level "+data.level;
@@ -566,6 +653,8 @@ class Quiz{
         this.answerList = new Map();
         this.defintion = new Map();
         this.example = new Map();
+        this.mastered = 0;
+        this.complete = false;
         for(var item of data.questions){
             this.questions.push(item.word);
             this.correct.set(item.word, item.correct_answer);
@@ -604,6 +693,14 @@ class Quiz{
     
     getExample(key){
         
+    }
+    
+    getMastered(){
+        return this.mastered;
+    }
+    
+    getMasteredPer(){
+        return (this.mastered/this.questions.length)*100;
     }
      
 }
