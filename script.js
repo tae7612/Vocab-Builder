@@ -4,11 +4,14 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 
 
 var recognition = new SpeechRecognition();
+var listening = false;
+var listenLoaded = false;
 
-
-document.getElementById("speak").onclick = function() {
-  recognition.start();
-  console.log('Ready to receive word.');
+document.getElementById("speak-btn").onclick = function() {
+    recognition.start();
+    listening = true;
+    document.getElementById('speak-btn').disabled = listening;
+    console.log('Ready to receive word.');
 }
 
 
@@ -21,16 +24,26 @@ recognition.onresult = function(event) {
   // These also have getters so they can be accessed like arrays.
   // The second [0] returns the SpeechRecognitionAlternative at position 0.
   // We then return the transcript property of the SpeechRecognitionAlternative object
+    
+    
+    document.getElementById('speak-btn').disabled = listening;
+    
     var word = event.results[0][0].transcript;
-    console.log('Result received: ' +word);
-   document.getElementById("search").value = word;
+    document.getElementById("search").value = word;
+    listening = false;
+    listenLoaded = true;
+    recognitionResults();
+    
+    
 
-  console.log('Confidence: ' + event.results[0][0].confidence);
+    console.log('Confidence: ' + event.results[0][0].confidence);
 }
 
 
 recognition.onspeechend = function() {
-  recognition.stop();
+    recognition.stop();
+    
+    
 }
 
 
@@ -76,7 +89,7 @@ function displayQuiz(itemName, index){
 
 
 function displaySearchResults(item){
-    console.log(searchList);
+//    console.log(searchList);
 }
 
 
@@ -85,3 +98,8 @@ function displaySearchPage(){
     document.getElementById("search-page").classList.remove("d-none");
 }
 
+function addFavorite(id, word){
+    
+    user.addFavorite(word);
+    console.log(user);
+}

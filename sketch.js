@@ -39,18 +39,6 @@ var quizNum = 0;
 var score = 0;
 var userSubmit;
 
-
-var accountNav;
-var searchNav;
-var quizNav;
-var homeNav;
-
-var accountPage;
-var searchPage;
-var quizPage;
-var homePage;
-var categoryPage;
-
 var favBtns;
 
 
@@ -70,39 +58,7 @@ function preload(){
 function setup() {
     createCanvas(0, 0);
     
-    homePage = select('#home-page');
-    homeNav = select('#home-nav');
-    
-    accountPage = select('#account-page');
-    accountNav = select('#account-nav');
-   
-    searchPage = select('#search-page');
-    searchNav = select('#search-nav');
-    
-    
-    
-    quizPage = select('#quiz-page');
-    quizNav = select('#play-nav');
-    
-    categoryPage = select('#category-page');
-   
-    
-  
-//    
-//    searchNav.mousePressed(function(){
-//         searchPage.removeClass("d-none");
-//        quizPage.addClass("d-none");
-//        accountPage.addClass("d-none");
-//        homePage.addClass("d-none");
-//    });
-//    
-//     quizNav.mousePressed(function(){
-//        searchPage.addClass("d-none");
-//        quizPage.addClass("d-none");
-//        accountPage.addClass("d-none");
-//        homePage.removeClass("d-none");
-//     });
-//    
+
     search = select('#search');
     searchList = select('#search-list');
     
@@ -143,8 +99,7 @@ function setup() {
     
     basicCategory = new Category(basic);
     console.log(basicCategory);
-//    quiz = new Quiz(basic.levels[0], basic.category);
-//    console.log(basic);
+
     
     
 }
@@ -157,6 +112,17 @@ function draw() {
         
             createHomePage();
             createAccount();
+        
+        if(listening){
+            speakBtn = select('#speak-btn');
+            speakBtn.attribute('disabled', '');
+            
+            speakIcon = select('#speak-icon');
+            speakIcon.addClass('d-none');
+            speakSpinner = select('#speak-spinner');
+            speakSpinner.removeClass('d-none');
+            speakSpinner.addClass('d-flex');
+        }
             
         if(searchLoading){
             
@@ -504,6 +470,20 @@ function checkAnswer(answer, correct){
 
 /* SEARCH  */
 
+function recognitionResults(){
+    speakBtn = select('#speak-btn');
+    speakBtn.removeAttribute('disabled');
+            
+    speakIcon = select('#speak-icon');
+    speakIcon.removeClass('d-none');
+    speakSpinner = select('#speak-spinner');
+    speakSpinner.removeClass('d-flex');
+    speakSpinner.addClass('d-none');
+            
+    
+    createSearchResults();
+}
+
 async function createSearchResults(){
     query = search.value();
     if(query != previous){
@@ -520,17 +500,12 @@ async function createSearchResults(){
                searchLoading = true;
                searchSpinner.removeClass('d-none');
                
-               
-               console.log(searchLoading);
                searchResults = await getSearch();
                words = searchResults.map(function(elem) {return elem.word});
-               console.log(words);
                
                resultObj = await getDefinition(words);
-               console.log(resultObj);
                
                exampleObj = await getExample(words);
-               console.log(exampleObj);
                
                searchSpinner.addClass('d-none');
                searchLoading = false;
@@ -557,7 +532,7 @@ async function createSearchResults(){
                            def = "No definition found";
                        }
                        
-                       searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word+'" value="'+word+'" class="btn favBtn text-right btn-blue align-self-end px-5"><span class="h5">Favorite</span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
+                       searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn favBtn text-right btn-blue align-self-end px-5"><span class="h5">Favorite</span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
                        
                        displaySearchResults(searchList);
                    
@@ -677,75 +652,9 @@ async function getExample(words){
 }
 
 
-//function getDefinition(){
+function updateFavorite(id, word){
     
-    
-    
-    
-//    var defData;
-//    word = word.toLowerCase();
-//    fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions", {
-//	"method": "GET",
-//	"headers": {
-//		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
-//		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-//	}
-//})
-//.then(response => response.json())
-//.then(data => {
-//        getDefData(data);
-//    })
-//.catch(err => {
-//	console.error(err);
-//});
-  
-//}
-
-
-//function getExample(word){
-//    
-//    var exampleData;
-//    word = word.toLowerCase();
-//    fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/examples", {
-//	"method": "GET",
-//	"headers": {
-//		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
-//		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-//	}
-//})
-//.then(response => response.json())
-//.then(data => {
-//        getExampleData(data);
-//    })
-//.catch(err => {
-//	console.error(err);
-//});
-//}
-
-
-//function getDefinition(data){
-//    var keys= Object.keys(data);
-//    if(keys[0] == "word")
-//    {
-//       resultObj.push(data);
-//    }
-//}
-
-
-//function getExample(data){
-//    
-//    console.log(data);
-//    var keys= Object.keys(data);
-//    if(keys[0] == "word")
-//    {
-//        
-//        if(typeof data.examples[0] === 'undefined' ){
-//            exampleObj.set(data.word, "No example avaliable" );
-//        }else{
-//            exampleObj.set(data.word, data.examples[0].charAt(0).toUpperCase() + data.examples[0].slice(1) );
-//        }
-//    }
-//}
+}
 
 
 function favClick(btn){
@@ -871,7 +780,7 @@ class User{
     constructor(name){
         this.name = name;
         this.review = new Map();
-        this.fav = new Map();
+        this.favorite = new Set();
     }
     
     
@@ -879,12 +788,12 @@ class User{
         return this.name;
     }
     
-    checkFav(word){
-        return this.fav.has(word);
+    checkFavorite(word){
+        return this.favorite.has(word);
     }
     
-    addFav(word){
-        this.fav.set(word,word);
+    addFavorite(word){
+        this.favorite.add(word);
     }
     
     
