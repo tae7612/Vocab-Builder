@@ -1,6 +1,7 @@
 class Quiz{
     constructor(data, category){
         this.quizName = category+" Level "+data.level;
+        this.level = this.level;
         this.category = category;
         this.questions = [];
         this.correct = new Map();
@@ -28,6 +29,10 @@ class Quiz{
     
     getCategory(){
         return this.category;
+    }
+    
+    getLevel(){
+        return this.level;
     }
     
     getCorrect(key){

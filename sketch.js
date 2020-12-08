@@ -206,7 +206,8 @@ function createCategoryPage(category){
     
     var levels = category.getLevels();
     for(var i=0; i< levels.length; i++){
-        categoryLevels.html('<div class="card"><div class="card-body"><h3 class="card-title font-weight-bolder">Level 1</h3><h6 class="card-subtitle mb-2 font-weight-light text-muted">'+levels[i].getMastered()+' of '+levels[i].getQuestionLength()+' words mastered</h6><div class="progress category-progress border border-dark"><div class="progress-bar bg-correct" role="progressbar" style="width:'+ levels[i].getMasteredPer() +'%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div></div><div class=""><button onclick="displayQuiz(\''+category.categoryName+'\', \''+i+'\')" class="card-footer align-middle btn btn-blue w-100"><span class="align-middle h5\">Play</span></button></div></div></div>',true);
+        var levelNum = i+1;
+        categoryLevels.html('<div class="card my-3"><div class="card-body"><h3 class="card-title font-weight-bolder">Level '+ levelNum +'</h3><h6 class="card-subtitle mb-2 font-weight-light text-muted">'+levels[i].getMastered()+' of '+levels[i].getQuestionLength()+' words mastered</h6><div class="progress category-progress border border-dark"><div class="progress-bar bg-correct" role="progressbar" style="width:'+ levels[i].getMasteredPer() +'%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div></div><div class=""><button onclick="displayQuiz(\''+category.categoryName+'\', \''+i+'\')" class="card-footer align-middle btn btn-blue w-100"><span class="align-middle h5\">Play</span></button></div></div></div>',true);
     }
 }
 

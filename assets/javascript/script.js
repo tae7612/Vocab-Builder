@@ -83,7 +83,7 @@ function displayQuiz(itemName, index){
 }
 
 
-function displayAccount(){
+function displayAccountPage(){
     hidePages();
     document.getElementById("account-page").classList.remove("d-none");
     
