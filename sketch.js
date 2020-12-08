@@ -4,7 +4,7 @@ var apiKey = 'g6g5n3nfyle6tgh49ivmbt8nxawvdfcog87czmengftng8mxg';
 // User Info
 
 var user;
-
+var setCategories = new Map();
 
 //Page
 
@@ -50,7 +50,7 @@ var basicCategory;
 
 
 function preload(){
-    basic = loadJSON("assets/basic.json");
+    basic = loadJSON("assets/json/basic.json");
     
     
     
@@ -67,8 +67,14 @@ function setup() {
         createSearchResults();
     });
     
+    basicCategory = new Category(basic);
+    console.log(basicCategory);
     
-    user = new User("guest")
+    
+    
+    setCategories.set(basicCategory.getCategoryName().toLowerCase(), basicCategory);
+    
+    user = new User("guest", map);
     
     userSubmit = select('#userNameSubmit');
     userSubmit.mousePressed(function(){
@@ -80,8 +86,9 @@ function setup() {
             modal.addClass('d-none');
             form.addClass('d-none');
             
-            user = new User(userInput.value().trim());
+            user = new User(userInput.value().trim(), setCategories);
             loaded = true;
+            createHomePage();
         }else{
             smallText = select('#userPromptText');
             smallText.html("<u>Please enter a valid username</u>");
@@ -97,8 +104,7 @@ function setup() {
     
     
     
-    basicCategory = new Category(basic);
-    console.log(basicCategory);
+   
 
     
     
@@ -110,8 +116,8 @@ function draw() {
     
     if(loaded){
         
-            createHomePage();
-            createAccount();
+            
+
         
         if(listening){
             speakBtn = select('#speak-btn');
@@ -141,23 +147,23 @@ function draw() {
             } 
             
         }
-            
-            
+        
         if(play){
             createQuiz(currentQuiz);
-        }
-            
-        
+        }  
     }
-    
-    
-           
-    
 }
 
 
 function createHomePage(){
     
+    basicLevels = select("#basic-levels");
+    basicProgress = select("#basic-progress");
+    
+    basicCat = user.getCategory('basic');
+    basicLevels.html(basicCat.getLevelMastered()+' of '+basicCat.getLevelsLength());
+    
+    basicProgress.style('width', basicCat.getMasteredPer()+'%');
 }
 
 
@@ -198,9 +204,9 @@ function createCategoryPage(category){
     categoryName.html(category.categoryName + " Words");
     categoryLevels.html("");
     
-    var levels = category.levels;
+    var levels = category.getLevels();
     for(var i=0; i< levels.length; i++){
-        categoryLevels.html("<div class=\"card\"><div class=\"card-body\"><h3 class=\"card-title font-weight-bolder\">Level 1</h3><h6 class=\"card-subtitle mb-2 font-weight-light text-muted \">"+levels[i].getMastered()+" of 10 words mastered</h6><div class=\"progress category-progress border border-dark\"><div class=\"progress-bar bg-correct\" role=\"progressbar\" style=\"width:"+ levels[i].getMasteredPer() +"%; \" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div></div></div><div class=\"\"><button onclick=\"displayQuiz(\'"+category.categoryName+"\', \'"+i+"\')\" class=\"card-footer align-middle btn btn-blue w-100\"><span class=\"align-middle h5\">Play</span></button></div></div></div>",true)
+        categoryLevels.html('<div class="card"><div class="card-body"><h3 class="card-title font-weight-bolder">Level 1</h3><h6 class="card-subtitle mb-2 font-weight-light text-muted">'+levels[i].getMastered()+' of '+levels[i].getQuestionLength()+' words mastered</h6><div class="progress category-progress border border-dark"><div class="progress-bar bg-correct" role="progressbar" style="width:'+ levels[i].getMasteredPer() +'%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div></div></div><div class=""><button onclick="displayQuiz(\''+category.categoryName+'\', \''+i+'\')" class="card-footer align-middle btn btn-blue w-100"><span class="align-middle h5\">Play</span></button></div></div></div>',true);
     }
 }
 
@@ -239,7 +245,7 @@ function createQuiz(quiz){
         }
         
         quiz.setMastered(score);
-        
+        user.getCategory(quiz.getCategory().toLowerCase()).setLevelMastered();
         
         
         
@@ -657,11 +663,6 @@ function updateFavorite(id, word){
 }
 
 
-function favClick(btn){
-    console.log(btn);
-    console.log(value());
-    console.log("I was clicked");
-}
 
 function getQuiz(){
     
@@ -669,90 +670,6 @@ function getQuiz(){
     return json;
 }
 
-
-
-class Category{
-    constructor(data){
-        this.categoryName = data.category;
-        this.levels = [];
-        this.levelMastered = 0;
-        this.complete = false;
-        for(var i=0; i< data.levels.length;i++){
-            this.levels.push(new Quiz(data.levels[i], data.category));
-        
-        }
-
-    }
-    
-    
-    getQuiz(index){
-        return this.levels[index];
-    }
-}
-
-class Quiz{
-    constructor(data, category){
-        this.quizName = category+" Level "+data.level;
-        this.questions = [];
-        this.correct = new Map();
-        this.answerList = new Map();
-        this.defintion = new Map();
-        this.example = new Map();
-        this.mastered = 0;
-        this.complete = false;
-        for(var item of data.questions){
-            this.questions.push(item.word);
-            this.correct.set(item.word, item.correct_answer);
-            this.answerList.set(item.word, item.wrong_answers);
-            this.defintion.set(item.word, item.definition);
-            this.example.set(item.word, item.example);
-        }
-    }
-    
-    getName(){
-        return this.quizName;
-    }
-    
-    getName(){
-        return this.quizName;
-    }
-    getCorrect(key){
-        return this.correct.get(key);
-    }
-    
-    getAnswers(key){
-        var ans = [];
-        ans.push(this.getCorrect(key));
-        ans = ans.concat(this.answerList.get(key));
-        shuffle(ans, true);
-        return ans;
-    }
-    
-    getQuestions(){
-         return this.questions;
-    }
-    
-    getDefinition(key){
-        
-    }
-    
-    getExample(key){
-        
-    }
-    
-    setMastered(score){
-        this.mastered = score;
-    }
-    
-    getMastered(){
-        return this.mastered;
-    }
-    
-    getMasteredPer(){
-        return (this.mastered/this.questions.length)*100;
-    }
-     
-}
 
 
 class Word{
@@ -776,38 +693,6 @@ class Word{
 }
 
 
-class User{
-    constructor(name){
-        this.name = name;
-        this.review = new Map();
-        this.favorite = new Set();
-    }
-    
-    
-    getName(){
-        return this.name;
-    }
-    
-    checkFavorite(word){
-        return this.favorite.has(word);
-    }
-    
-    addFavorite(word){
-        this.favorite.add(word);
-    }
-    
-    
-    
-    getReviews(){
-        return this.review;
-    }
-    
-    addNewWord(key, wordlist){
-        
-        this.review.set(key, wordlist);
-        
-    }
-}
 
 
 

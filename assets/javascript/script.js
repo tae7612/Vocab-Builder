@@ -55,6 +55,8 @@ function hidePages(){
 function displayHomePage(){
     hidePages();
     document.getElementById("home-page").classList.remove("d-none");
+    
+    createHomePage();
 }
 
 
@@ -63,13 +65,9 @@ function displayCategory(itemName){
     hidePages();
     document.getElementById("category-page").classList.remove("d-none");
     
-    item = selectCategory(itemName);
-  
-    createCategoryPage(item);
-         
+    selectItem = user.getCategory(itemName);
+    createCategoryPage(selectItem);
 
-    
-    
 }
 
 
@@ -85,7 +83,13 @@ function displayQuiz(itemName, index){
 }
 
 
-
+function displayAccount(){
+    hidePages();
+    document.getElementById("account-page").classList.remove("d-none");
+    
+    createAccount();
+    
+}
 
 
 function displaySearchResults(item){
@@ -101,5 +105,4 @@ function displaySearchPage(){
 function addFavorite(id, word){
     
     user.addFavorite(word);
-    console.log(user);
 }
