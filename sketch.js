@@ -176,7 +176,8 @@ function createAccount(){
     userNameBox.html(user.getName());
     reviews = user.getReviews().keys();
     for(word of reviews){
-        userReviewsList.html("<li class=\"list-group-item\">"+word.charAt(0).toUpperCase() + word.slice(1)+"</li>", true);
+//        userReviewsList.html('<li class="list-group-item mx-3">'+word.charAt(0).toUpperCase() + word.slice(1)+'</li>', true);
+        userReviewsList.html('<div  class="col mb-4"><div class="card text-center"><div class="card-body">'+word.charAt(0).toUpperCase() + word.slice(1)+'</div></div></div>', true);
     }
     
 

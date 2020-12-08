@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/addons/p5.sound.min.js"></script>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -14,7 +15,7 @@
     <meta charset="utf-8" />
 
   </head>
-  <body >
+  <body>
       
 <!--     HEADER        -->
       <header class="m-0">
@@ -52,8 +53,8 @@
       
             
 <!--      HOME PAGE       -->     
-      
-      <div id="home-page" class="container page">
+<div class="mx-auto container-fluid">    
+      <div id="home-page" class="container-fluid page">
           
           <div class="row justify-content-around">
               <div class="category-box card my-5" style="">
@@ -67,8 +68,7 @@
                   </div>
                   <button id="basicBtn" onclick="displayCategory('basic')" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button>
               </div>
-              
-              
+
               <div class="category-box card my-5" style="">
                   <div class="card-body">
                       <h1 class="card-title font-weight-bolder">Common Words</h1>
@@ -124,17 +124,36 @@
               <p class="h4">Welcome <span id="user-name">User</span>!!!!</p>
           </div>
           
-          
-          <div class="row mx-5">
-              <p class="h3"> Reviews</p>
+          <div class=" mx-5">
+              <div class="card">
+                  <div class="card-header h3">Reviews</div>
+                  <div class="card-body">
+                      
+                      <div id="user-reviews" class="row row-cols-1 row-cols-md-3 row-cols-lg-5">
+                          <div class="col mb-4">
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+
+
+                  </div>
+              </div>
           </div>
           
+          
+          
+<!--
           <div class="row mx-5 my-3">
               <ul id="user-reviews" class="list-group">
                   <li class="list-group-item">Cras justo odio</li>
               </ul>
               
           </div>
+-->
           
       
       </div>
@@ -167,7 +186,7 @@
       
       
       <div id="quiz-page" class="d-none page">
-      <div class="container">
+      <div class="container-fluid">
       
         <div id = "quiz-header" class=" m-4">
             <p> Basic Level 1</p>
@@ -175,7 +194,7 @@
       </div>
       
       
-      <div class=" container ">
+      <div class=" container-fluid ">
         <div id="quiz" class=" quiz-box mx-auto">
           
             <div  id="quiz-title-container" class=" bg-light quiz-title">
@@ -314,7 +333,7 @@
       </div>
       
     
-      
+  </div>      
       
       <script src="sketch.js"></script>
       <script src="assets/javascript/script.js"></script>
