@@ -1,3 +1,6 @@
+var apiKey = 'g6g5n3nfyle6tgh49ivmbt8nxawvdfcog87czmengftng8mxg';
+
+
 // User Info
 
 var user;
@@ -14,13 +17,14 @@ var currentQuiz;
 
 
 
+var searchLoaded;
+
 var query = '';
 var search;
 var resultObj = [];
-var exampleObj = new Map();
-var searchResults = [];
 var previous = '';
 var searchList;
+var searchBtn;
 
 var play = false;
 //var quiz;
@@ -82,12 +86,7 @@ function setup() {
     categoryPage = select('#category-page');
    
     
-//    accountNav.mousePressed(function(){
-//        searchPage.addClass("d-none");
-//        quizPage.addClass("d-none");
-//        accountPage.removeClass("d-none");
-//        homePage.addClass("d-none");
-//    });
+  
 //    
 //    searchNav.mousePressed(function(){
 //         searchPage.removeClass("d-none");
@@ -105,6 +104,12 @@ function setup() {
 //    
     search = select('#search');
     searchList = select('#search-list');
+    
+    searchBtn = select('#search-btn');
+    searchBtn.mousePressed(function(){
+        createSearchResults();
+    });
+    
     
     user = new User("guest")
     
@@ -148,8 +153,8 @@ function draw() {
         
             createHomePage();
             createAccount();
-            createSearchPage();
-        
+            
+            
         if(play){
             createQuiz(currentQuiz);
         }
@@ -186,6 +191,9 @@ function createHomePage(){
     
 }
 
+
+/* ACCOUNT  */
+
 function createAccount(){
     userNameBox = select("#user-name");
     userReviewsList = select("#user-reviews");
@@ -198,6 +206,9 @@ function createAccount(){
     
 
 }
+
+
+/* CATEGORY  */
 
 function selectCategory(itemName){
     switch(itemName.toLowerCase()){
@@ -223,6 +234,8 @@ function createCategoryPage(category){
         categoryLevels.html("<div class=\"card\"><div class=\"card-body\"><h3 class=\"card-title font-weight-bolder\">Level 1</h3><h6 class=\"card-subtitle mb-2 font-weight-light text-muted \">"+levels[i].getMastered()+" of 10 words mastered</h6><div class=\"progress category-progress border border-dark\"><div class=\"progress-bar bg-correct\" role=\"progressbar\" style=\"width:"+ levels[i].getMasteredPer() +"%; \" aria-valuenow=\"25\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div></div></div><div class=\"\"><button onclick=\"displayQuiz(\'"+category.categoryName+"\', \'"+i+"\')\" class=\"card-footer align-middle btn btn-blue w-100\"><span class=\"align-middle h5\">Play</span></button></div></div></div>",true)
     }
 }
+
+/* QUIZ  */
 
 function createQuiz(quiz){
     quizBox = select("#quiz");
@@ -414,7 +427,6 @@ function setQuizBtns(answers, correct){
     }
 }
 
-
 function checkAnswer(answer, correct){
     
     
@@ -487,147 +499,248 @@ function checkAnswer(answer, correct){
 }
 
 
-function createSearchPage(){
+/* SEARCH  */
+
+async function createSearchResults(){
     query = search.value();
     if(query != previous){
         previous = query;
         console.log(query);
         query.trim();
-        if(query == ""){
-            searchResults = [];
-            resultObj = [];
+        
+        
+        if(query != ""){
+           try{
+               searchResults = await getSearch();
+               words = searchResults.map(function(elem) {return elem.word});
+               console.log(words);
+               
+               resultObj = await getDefinition(words);
+               console.log(resultObj);
+               
+               exampleObj = await getExample(words);
+               console.log(exampleObj);
+               
+               searchList.html("");
+               
+               if(resultObj.length > 0){
+                   for (results of resultObj){
+                       
+                       var word = results.word;
+                       var example = exampleObj.get(word.toLowerCase());
+                       if(word.length > 1){
+                           word = word.charAt(0).toUpperCase() + word.slice(1);
+                       }else{
+                           word = word.toUpperCase();
+                       }
+                       
+                       if(results.definitions.length > 0){
+                           
+                           var def = results.definitions[0].definition;
+                           def = def.charAt(0).toUpperCase() + def.slice(1);
+                           
+                       }else{
+                           
+                           def = "No definition found";
+                       }
+                       
+                       searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word+'" value="'+word+'" class="btn favBtn text-right btn-blue align-self-end px-5"><span class="h5">Favorite</span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
+                       
+                       displaySearchResults(searchList);
+                   
+                   }
+               
+               }else{
+                   
+                   searchList.html("<li class=\"list-group-item px-5 mx-5\">No Results</li>");
+               }
+               
+               
+           }catch(err){
+               console.error(err);
+           }
             
-        }else{
-            getSearch();
+//            words = searchResults.map(function(elem) {return elem.word});
+            
 
             
         }
         
     }
-    searchList.html("");
-    if(resultObj.length > 0){
-        for (results of resultObj){
-            var word = results.word;
-            var example = exampleObj.get(word.toLowerCase());
-            if(word.length > 1){
-                word = word.charAt(0).toUpperCase() + word.slice(1);
-            }else{
-                word = word.toUpperCase();
-            }
-            if(results.definitions.length > 0){
-                 var def = results.definitions[0].definition;
-                def = def.charAt(0).toUpperCase() + def.slice(1);
-            }
-            else{
-                def = "No definition found";
-            }
-            searchList.html(" <div class=\"card mx-5 mb-3\"><h5 class=\"card-header bg-purple\">"+word+"</h5><div class=\"card-body  \"><div class=\"ml-3\"><div class=\"row justify-content-between\"><h5 class=\"ml-3 card-title text-muted\">Definition</h5><div class=\"mr-3\" ><button id=\"fav-"+word+"\" value=\""+word+"\" class=\"btn favBtn text-right btn-blue align-self-end px-5\"><span class=\"h5\">Favorite</span></button></div></div><p class=\"card-text\">"+def+"</p><h5 class=\"card-title text-muted\">Example</h5><p class=\"card-text\">"+example+"</p></div></div></div>",true)
-//            
-            displaySearchResults(searchList);
-            
-            
-        }
+    
+    
+    
+
+    
+
+
+}
+
+async function getSearch(){ 
+    
+    try{
+        let searchPromise = await fetch( "https://api.datamuse.com/words?sp="+query+"*&max=20");
+        let results = await searchPromise.json();
+        return await results;
+//        getData(results);
         
-
-    }else{
-
-        searchList.html("<li class=\"list-group-item px-5 mx-5\">No Results</li>");
-
+    }catch(err){
+        console.error(err);
     }
+   
+}
+
+async function getDefinition(words){
+    results = [];
+    try{
+        
+        defRequests = words.map(word => fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions", {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
+                "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+            }
+        })
+                               );
+        
+        let defResponses = await Promise.all(defRequests);
+        defResults = await Promise.all(defResponses.map(result => result.json()));
+        defResults.forEach(function(data){
+            
+            var keys= Object.keys(data);
+            if(keys[0] == "word")
+            {
+                results.push(data);
+            }
+            
+        });
+        
+        return results;
+
+    }catch(err){
+        console.error(err);
+    }
+   
+   
+
+    
+
 }
 
 
-function getSearch(){    
-    fetch( "https://api.datamuse.com/words?sp="+query+"*&max=20")
-        .then(response => response.json())
-        .then(data => getData(data))
-        .catch(err => {
-	       console.error(err);
-    });
+async function getExample(words){
+    
+    results = new Map();
+     try{
+        
+        examRequests = words.map(word => fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/examples", {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
+                "x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+            }
+        })
+                               );
+        
+        let examResponses = await Promise.all(examRequests);
+        examResults = await Promise.all(examResponses.map(result => result.json()));
+        examResults.forEach(function(data){
+            var keys= Object.keys(data);
+            if(keys[0] == "word")
+            {
+                if(typeof data.examples[0] === 'undefined' ){
+                    results.set(data.word, "No example avaliable" );
+                }else{
+                    results.set(data.word, data.examples[0].charAt(0).toUpperCase() + data.examples[0].slice(1) );
+                }
+            }
+            
+        });
+        
+        return results;
+        
+    }catch(err){
+        console.error(err);
+    }
     
 }
 
-function getData(results){
-    searchResults = results;
-    resultObj = [];
-   
-    for(var i=0; i < searchResults.length; i++){
-        getDefinition(searchResults[i].word);
-        getExample(searchResults[i].word);
-    }
 
-}
+//function getDefinition(){
+    
+    
+    
+    
+//    var defData;
+//    word = word.toLowerCase();
+//    fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions", {
+//	"method": "GET",
+//	"headers": {
+//		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
+//		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+//	}
+//})
+//.then(response => response.json())
+//.then(data => {
+//        getDefData(data);
+//    })
+//.catch(err => {
+//	console.error(err);
+//});
+  
+//}
+
+
+//function getExample(word){
+//    
+//    var exampleData;
+//    word = word.toLowerCase();
+//    fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/examples", {
+//	"method": "GET",
+//	"headers": {
+//		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
+//		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
+//	}
+//})
+//.then(response => response.json())
+//.then(data => {
+//        getExampleData(data);
+//    })
+//.catch(err => {
+//	console.error(err);
+//});
+//}
+
+
+//function getDefinition(data){
+//    var keys= Object.keys(data);
+//    if(keys[0] == "word")
+//    {
+//       resultObj.push(data);
+//    }
+//}
+
+
+//function getExample(data){
+//    
+//    console.log(data);
+//    var keys= Object.keys(data);
+//    if(keys[0] == "word")
+//    {
+//        
+//        if(typeof data.examples[0] === 'undefined' ){
+//            exampleObj.set(data.word, "No example avaliable" );
+//        }else{
+//            exampleObj.set(data.word, data.examples[0].charAt(0).toUpperCase() + data.examples[0].slice(1) );
+//        }
+//    }
+//}
 
 
 function favClick(btn){
     console.log(btn);
     console.log(value());
     console.log("I was clicked");
-}
-
-function getDefinition(word){
-    var defData;
-    word = word.toLowerCase();
-    fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
-		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-	}
-})
-.then(response => response.json())
-.then(data => {
-        getDefData(data);
-    })
-.catch(err => {
-	console.error(err);
-});
-  
-}
-
-
-function getExample(word){
-    
-    var exampleData;
-    word = word.toLowerCase();
-    fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/examples", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "d3cb972d01msh9751e2ffd34399bp1d6162jsne3a1d8854f85",
-		"x-rapidapi-host": "wordsapiv1.p.rapidapi.com"
-	}
-})
-.then(response => response.json())
-.then(data => {
-        getExampleData(data);
-    })
-.catch(err => {
-	console.error(err);
-});
-}
-
-
-function getDefData(data){
-    
-    var keys= Object.keys(data);
-    if(keys[0] == "word")
-    {
-       resultObj.push(data);
-    }
-}
-
-
-function getExampleData(data){
-     var keys= Object.keys(data);
-    if(keys[0] == "word")
-    {
-        
-        if(typeof data.examples[0] === 'undefined' ){
-            exampleObj.set(data.word, "No example avaliable" );
-        }else{
-            exampleObj.set(data.word, data.examples[0].charAt(0).toUpperCase() + data.examples[0].slice(1) );
-        }
-    }
 }
 
 function getQuiz(){
