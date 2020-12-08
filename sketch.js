@@ -17,7 +17,8 @@ var currentQuiz;
 
 
 
-var searchLoaded;
+var searchLoading = false;
+var load = 4;
 
 var query = '';
 var search;
@@ -137,6 +138,9 @@ function setup() {
         
     });
     
+    
+    
+    
     basicCategory = new Category(basic);
     console.log(basicCategory);
 //    quiz = new Quiz(basic.levels[0], basic.category);
@@ -154,30 +158,29 @@ function draw() {
             createHomePage();
             createAccount();
             
+        if(searchLoading){
+            
+            text = "...";
+            
+            loadText = select('#load-text');
+            
+            if(frameCount % 15 == 0){
+                if(load >= text.length ){
+                    load = 0;
+                    loadText.html("");
+                }else{
+                    loadText.html(text[load],true);
+                    load++;
+                }
+            } 
+            
+        }
+            
             
         if(play){
             createQuiz(currentQuiz);
         }
             
-        
-//        switch(selectPage){
-//            case "home":
-//                createHomePage();
-//               
-//                createAccount();
-//                createSearchPage();
-//                break;
-//            case "category":
-//                break;
-//                
-//            case "quiz":
-//                 
-//                break;
-//            default:
-//                createHomePage();
-//                break;
-//                
-//        }
         
     }
     
@@ -511,6 +514,14 @@ async function createSearchResults(){
         
         if(query != ""){
            try{
+               searchList.html("");
+               
+               searchSpinner = select('#search-spinner');
+               searchLoading = true;
+               searchSpinner.removeClass('d-none');
+               
+               
+               console.log(searchLoading);
                searchResults = await getSearch();
                words = searchResults.map(function(elem) {return elem.word});
                console.log(words);
@@ -521,7 +532,9 @@ async function createSearchResults(){
                exampleObj = await getExample(words);
                console.log(exampleObj);
                
-               searchList.html("");
+               searchSpinner.addClass('d-none');
+               searchLoading = false;
+               
                
                if(resultObj.length > 0){
                    for (results of resultObj){
@@ -560,7 +573,6 @@ async function createSearchResults(){
                console.error(err);
            }
             
-//            words = searchResults.map(function(elem) {return elem.word});
             
 
             
@@ -582,8 +594,7 @@ async function getSearch(){
         let searchPromise = await fetch( "https://api.datamuse.com/words?sp="+query+"*&max=20");
         let results = await searchPromise.json();
         return await results;
-//        getData(results);
-        
+
     }catch(err){
         console.error(err);
     }
