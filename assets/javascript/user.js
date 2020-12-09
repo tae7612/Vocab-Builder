@@ -19,12 +19,14 @@ class User{
         this.favorite.add(word);
     }
     
+    removeFavorite(word){
+        this.favorite.delete(word);
+    }
+    
     getFavorites(){
         return this.favorite;
     }
-    
-    
-    
+
     getReviews(){
         return this.review;
     }

@@ -115,7 +115,26 @@ function displaySearchPage(){
     document.getElementById("search-page").classList.remove("d-none");
 }
 
+
 function addFavorite(id, word){
     
     user.addFavorite(word);
+    var favBtn = document.getElementById(id);
+    
+    favBtn.innerHTML = '<span class="h3"><i class="fas fa-heart"></i></span>';
+    favBtn.onclick = function(id,word){removeFavorite(id,word);};
+    favBtn.classList.remove('btn-blue');
+    favBtn.classList.add('btn-fav');
+}
+
+
+function removeFavorite(id, word){
+    console.log("Remove!!");
+    user.removeFavorite(word);
+    var favBtn = document.getElementById(id);
+    
+    favBtn.innerHTML = '<span class="h3"><i class="far fa-heart"></i></span>';
+    favBtn.onclick = function(id,word){addFavorite(id,word);};
+    favBtn.classList.add('btn-blue');
+    favBtn.classList.remove('btn-fav');
 }

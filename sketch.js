@@ -243,7 +243,7 @@ function createCategoryPage(category){
 function setQuizHeader(quiz){
     quizHeader = select("#quiz-header");
     var currCat = quiz.getCategory().toLowerCase();
-    quizHeader.html('<p><a onclick="displayCategory(\''+currCat+'\')" id="quiz-back"><i class="fas fa-arrow-left h4"></i></a> '+ quiz.getName()+'</p>');
+    quizHeader.html('<p><a class="back-btn" onclick="displayCategory(\''+currCat+'\')" id="quiz-back"><i class="fas fa-arrow-alt-circle-left"></i></a> '+ quiz.getName()+'</p>');
 }
 
 function createQuiz(quiz){
@@ -599,7 +599,17 @@ async function createSearchResults(){
                            def = "No definition found";
                        }
                        
-                       searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn favBtn text-right btn-blue align-self-end px-5"><span class="h5">Favorite</span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
+                       if(user.checkFavorite(word.toLowerCase())){
+                           
+                            searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="removeFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-fav align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
+                           
+                           
+                       }else{
+                           
+                            searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-blue align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
+                       }
+                       
+                      
                        
                    }
                

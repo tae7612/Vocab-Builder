@@ -69,6 +69,17 @@ header nav button{
      color: #ffffff;
 }
 
+
+.btn-fav{
+    background-color: #e22837;
+    color: #ffffff;
+}
+
+.btn-fav:hover{
+    background-color: #af1824;
+    color: #ffffff;
+}
+
 .bg-purple{
     background-color: #643573;
     color: #ffffff;
