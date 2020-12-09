@@ -1,11 +1,23 @@
 html, body {
     margin: 0;
     padding: 0;
-    background-color: #f2f2fc;
+   
     font-family: 'Alegreya', serif;
+    
 }
+
+body{
+     background-color: #643573;
+}
+
 canvas {
     display: block;
+}
+
+
+#landing-page img{
+    width: 100%;
+    height: auto;
 }
 
 header {

@@ -88,6 +88,15 @@ function setup() {
             
             user = new User(userInput.value().trim(), setCategories);
             loaded = true;
+            
+            var landingPage = select('#landing-page');
+            landingPage.addClass('d-none');
+            var mainPage = select('#main-page');
+            var bodyTag = select('body');
+            mainPage.removeClass('d-none');
+            bodyTag.style('background-color', '#f2f2fc');
+
+            
             createHomePage();
         }else{
             smallText = select('#userPromptText');
