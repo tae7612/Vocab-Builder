@@ -98,6 +98,11 @@ header nav button{
     background-color: #572e64;
 }
 
+.btn-speak{
+    background-color: white;
+    border-color: #e7e7e7;
+    color: black;
+}
 
 #userNameModal{
     

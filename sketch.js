@@ -735,13 +735,13 @@ function updateFavorite(id, word){
 }
 
 
-
-function getQuiz(){
-    
-    console.log(json.category);
-    return json;
+function keyPressed() {
+  if (keyCode === ENTER) {
+    if(search.value() != ''){
+        createSearchResults();
+    }
+  }
 }
-
 
 
 class Word{

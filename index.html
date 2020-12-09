@@ -325,16 +325,20 @@
       
       <div id="search-page" class="d-none page">
           <div class="input-group my-5 px-5 input-group-lg">
-              <input type="text" id= "search" class="form-control" placeholder="Search Word" aria-label="Search" aria-describedby="button-addon2">
-              <div class="input-group-append">
-                  <button class="btn btn-secondary" type="button" id="speak-btn">
+               <div class="input-group-prepend">
+                  <button class="btn btn-speak" type="button" id="speak-btn">
                       <span id="speak-icon" ><i class="fas fa-microphone"></i></span>
                       <span id="speak-spinner" class="d-none justify-content-center">
                           <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                           <span class="sr-only">Loading...</span> 
                       </span>
                   </button>
-                  <button id="search-btn" class="btn btn-secondary" type="button"><i class="fas fa-search"></i></button>
+              </div>
+              
+              <input type="text" id= "search" class="form-control" placeholder="Search Word" aria-label="Search" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                  
+                  <button id="search-btn" class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
               </div>
 
           </div>
