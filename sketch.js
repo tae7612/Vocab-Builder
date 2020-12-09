@@ -50,10 +50,7 @@ var basicCategory;
 
 
 function preload(){
-    basic = loadJSON("assets/json/basic.json");
-    
-    
-    
+    basic = loadJSON("assets/json/basic.json"); 
 }
 function setup() {
     createCanvas(0, 0);
@@ -73,6 +70,10 @@ function setup() {
     
     
     setCategories.set(basicCategory.getCategoryName().toLowerCase(), basicCategory);
+    
+/**
+ * Intializes a User when they log in
+*/
     
     user = new User("guest", map);
     
@@ -171,6 +172,9 @@ function draw() {
     }
 }
 
+/**
+ * Pushes user information into the home page
+*/
 
 function createHomePage(){
     
@@ -186,6 +190,9 @@ function createHomePage(){
 
 /* ACCOUNT  */
 
+/**
+ * Pushes user information into the account page
+*/
 function createAccount(){
     userNameBox = select("#user-name");
     userReviewsList = select("#user-reviews");
@@ -229,6 +236,10 @@ function createAccount(){
 
 /* CATEGORY  */
 
+/**
+ * Returns the category object in correspondece to the user selection
+*/
+
 function selectCategory(itemName){
     switch(itemName.toLowerCase()){
         case "basic":
@@ -240,6 +251,10 @@ function selectCategory(itemName){
     }
 }
 
+
+/**
+ * Pushes user information into the category page
+*/
 function createCategoryPage(category){
     
     categoryName = select("#category-name");
@@ -257,12 +272,18 @@ function createCategoryPage(category){
 
 /* QUIZ  */
 
+/**
+ * Creates Quiz Header
+*/
 function setQuizHeader(quiz){
     quizHeader = select("#quiz-header");
     var currCat = quiz.getCategory().toLowerCase();
     quizHeader.html('<p><a class="back-btn" onclick="displayCategory(\''+currCat+'\')" id="quiz-back"><i class="fas fa-arrow-alt-circle-left"></i></a> '+ quiz.getName()+'</p>');
 }
 
+/**
+ * Creates and manages quiz using the given quiz object
+*/
 function createQuiz(quiz){
     quizBox = select("#quiz");
     quizResults = select("#quiz-results");
@@ -321,6 +342,9 @@ function createQuiz(quiz){
     
 }
 
+/**
+ * Resets Quiz Elements
+*/
 function resetQuizPage(){
     
     quizBox = select("#quiz");
@@ -337,7 +361,9 @@ function resetQuizPage(){
 }
 
 
-
+/**
+ * Set Quiz question and answers
+*/
 function setQuiz(question, quiz){
     
     if(nextSet){
@@ -396,6 +422,9 @@ function setQuiz(question, quiz){
    
 }
 
+/**
+ * Reset Quiz Elements
+*/
 function resetQuizElements(){
     answered = false;
     nextSet = true;
@@ -429,6 +458,9 @@ function resetQuizElements(){
     
 }
 
+/**
+ * Set Quiz buttons and answers
+*/
 function setQuizBtns(answers, correct){
      //A
     aBtn = select('#aBtn');
@@ -469,6 +501,9 @@ function setQuizBtns(answers, correct){
     }
 }
 
+/**
+ * Checks if user answer is correct
+*/
 function checkAnswer(answer, correct){
     
     
@@ -543,6 +578,9 @@ function checkAnswer(answer, correct){
 
 /* SEARCH  */
 
+/**
+ * Gets search results based on recognition query given
+*/
 function recognitionResults(){
     speakBtn = select('#speak-btn');
     speakBtn.removeAttribute('disabled');
@@ -557,6 +595,9 @@ function recognitionResults(){
     createSearchResults();
 }
 
+/**
+ * Reset Search Page Elemets
+*/
 function resetSearchPage(){
     
     search.html("");
@@ -566,6 +607,10 @@ function resetSearchPage(){
     previous = "";
 }
 
+/**
+ * Uses given query to get search results and then displays them 
+ * on the search page
+*/
 async function createSearchResults(){
     
     query = search.value();
@@ -656,6 +701,9 @@ async function createSearchResults(){
 
 }
 
+/**
+ * Returns an array of word results with the given query
+*/
 async function getSearch(){ 
     
     try{
@@ -669,6 +717,15 @@ async function getSearch(){
    
 }
 
+/**
+ * Returns an array of definitions for the given word
+ *
+ * Because of the use of two differnt APIs, the search results shown to the user
+ * are determined by the definition results since some word found in the Datamuse API
+ * will not be found in the Words API
+ *
+ *
+*/
 async function getDefinition(words){
     var results = [];
     try{
@@ -706,7 +763,9 @@ async function getDefinition(words){
 
 }
 
-
+/**
+ * Returns a map of examples based on the given words
+*/
 async function getExample(words){
     
     var results = new Map();
@@ -744,11 +803,10 @@ async function getExample(words){
     
 }
 
-
-function updateFavorite(id, word){
-    
-}
-
+/**
+ * Calls search results function when user enters a query and 
+ * presses ENTER
+*/
 
 function keyPressed() {
   if (keyCode === ENTER) {

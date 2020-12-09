@@ -4,9 +4,13 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 
 
 var recognition = new SpeechRecognition();
+
+// Use to determine when speechrecognition is listening for a word
 var listening = false;
 var listenLoaded = false;
 var cat ="";
+
+// Button for Seach bar speech-to-text button
 document.getElementById("speak-btn").onclick = function() {
     recognition.start();
     listening = true;
@@ -33,9 +37,6 @@ recognition.onresult = function(event) {
     listening = false;
     listenLoaded = true;
     recognitionResults();
-    
-    
-
     console.log('Confidence: ' + event.results[0][0].confidence);
 }
 
@@ -43,15 +44,20 @@ recognition.onresult = function(event) {
 recognition.onspeechend = function() {
     recognition.stop();
     
-    
 }
 
-
+/**
+ * Sets the display of all the elements with the page class to none
+ */
 function hidePages(){
     var pages = document.getElementsByClassName("page");
     Array.from(pages).forEach(element => element.classList.add("d-none"));
 }
 
+
+/**
+ * Displays the home-page block
+ */
 function displayHomePage(){
     hidePages();
     checkQuiz();
@@ -61,8 +67,11 @@ function displayHomePage(){
 }
 
 
-
+/**
+ * Displays the category-page block
+ */
 function displayCategory(itemName){
+    
     hidePages();
     checkQuiz();
     document.getElementById("category-page").classList.remove("d-none");
@@ -72,7 +81,9 @@ function displayCategory(itemName){
 }
 
 
-
+/**
+ * Displays the home-page block
+ */
 function displayQuiz(itemName, index){
     
     hidePages();
@@ -85,14 +96,18 @@ function displayQuiz(itemName, index){
     play = true;
 }
 
-
+/**
+ * Check to see if there is a quiz in progress
+ */
 function checkQuiz(){
     if(play){
         resetQuizPage();
     }
 }
 
-
+/**
+ * Displays account-page block
+ */
 function displayAccountPage(){
     hidePages();
     checkQuiz();
@@ -107,10 +122,16 @@ function displaySearchResults(item){
 //    console.log(searchList);
 }
 
-
+/**
+ * Clears the search page of previous results
+ */
 function clearSearchPage(){
     resetSearchPage();
 }
+
+/**
+ * Displays the search-page block
+ */
 
 function displaySearchPage(){
     hidePages();
@@ -119,7 +140,10 @@ function displaySearchPage(){
     document.getElementById("search-page").classList.remove("d-none");
 }
 
-
+/**
+ * Add the word favorite to the users collection
+ * Changes the button CSS and onclick function 
+ */
 function addFavorite(id, word){
     
     user.addFavorite(word);
@@ -132,6 +156,11 @@ function addFavorite(id, word){
 }
 
 
+
+/**
+ * Remove the word favorite to the users collection
+ * Changes the button CSS and onclick function 
+ */
 function removeFavorite(id, word){
     console.log("Remove!!");
     user.removeFavorite(word);
