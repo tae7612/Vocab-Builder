@@ -130,6 +130,14 @@ function draw() {
             speakSpinner.addClass('d-flex');
         }
             
+        var clearBtn = select('#clear-btn');
+        if(search.value() == ''){
+            
+            clearBtn.addClass('d-none');
+        }else{
+            clearBtn.removeClass('d-none');
+        }
+        
         if(searchLoading){
             
             text = "...";
@@ -562,7 +570,6 @@ async function createSearchResults(){
         if(query != ""){
            try{
                searchList.html("");
-               
                searchSpinner = select('#search-spinner');
                searchLoading = true;
                searchSpinner.removeClass('d-none');

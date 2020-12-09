@@ -108,6 +108,10 @@ function displaySearchResults(item){
 }
 
 
+function clearSearchPage(){
+    resetSearchPage();
+}
+
 function displaySearchPage(){
     hidePages();
     checkQuiz();
