@@ -115,6 +115,233 @@
           "definition": ""
         }
       ]
+    },
+      
+    {
+      "level": "two",
+      "questions": [
+        {
+          "word": "embryonic",
+          "correct_answer": "undeveloped",
+          "wrong_answers": [
+            "fertile",
+            "cynical",
+            "delicate"
+          ],
+          "example": "The Board of Directors is hoping to launch a new product soon, but planning for the Z7 is in an embryonic stage.",
+          "definition": ""
+        },
+        {
+          "word": "autonomous",
+          "correct_answer": "independent",
+          "wrong_answers": [
+            "uncaring",
+            "without a name",
+            "productive"
+          ],
+          "example": "Many of the factory workers are worried about being replaced by machines and computers that will work completely autonomously.",
+          "definition": ""
+        },
+        {
+          "word": "impartial",
+          "correct_answer": "unbiased",
+          "wrong_answers": [
+            "guilty",
+            "expressed in words",
+            "part of a whole"
+          ],
+          "example": "The judge was not impartial  since he had been bribed by the witness's family.",
+          "definition": ""
+        },
+        {
+          "word": "analogous",
+          "correct_answer": "similar",
+          "wrong_answers": [
+            "physical",
+            "irrational",
+            "transforming"
+          ],
+          "example": "In many ways, the Internet's transformative effect on society has been analogous  to that of the printing press.",
+          "definition": ""
+        },
+        {
+          "word": "cohesive",
+          "correct_answer": "united",
+          "wrong_answers": [
+            "gullible",
+            "tenacious",
+            "filtered"
+          ],
+          "example": "A well-written, cohesive essay will keep on topic at all times, never losing sight of the main argument.",
+          "definition": ""
+        },
+        {
+          "word": "complementary",
+          "correct_answer": "matching",
+          "wrong_answers": [
+            "done",
+            "free",
+            "flattering"
+          ],
+          "example": "The head waiter was careful to tell the amateur diners that red wine was complementary  with beef, each bringing out subtle taste notes in the other.",
+          "definition": ""
+        },
+        {
+          "word": "chauvinism",
+          "correct_answer": "feeling of superiority",
+          "wrong_answers": [
+            "forcefulness",
+            "denial",
+            "intense emotion"
+          ],
+          "example": "Vegetarians argue that man is chauvinistic  in his belief that animals do not consciously feel the pain we humans do.",
+          "definition": ""
+        },
+        {
+          "word": "censor",
+          "correct_answer": "remove objectionable material",
+          "wrong_answers": [
+            "count",
+            "disapprove of",
+            "protect from danger"
+          ],
+          "example": "Every fall, high school English teachers are inundated by requests to censor their curriculum by removing The Catcher in the Rye and Scarlet Letter from their reading lists.",
+          "definition": ""
+        },
+        {
+          "word": "serene",
+          "correct_answer": "peaceful",
+          "wrong_answers": [
+            "extremly hot",
+            "sorrowful",
+            "disorganized"
+          ],
+          "example": "I'd never seen him so serene; usually, he was a knot of stress and anxiety from hours of trading on the stock exchange.",
+          "definition": ""
+        },
+        {
+          "word": "mesmerize",
+          "correct_answer": "hypnotize",
+          "wrong_answers": [
+            "seperate",
+            "bury",
+            "remember"
+          ],
+          "example": "The plot and the characters were so well developed that many viewers were mesmerized, unable to move their eyes from the screen for even a single second.",
+          "definition": ""
+        },
+        {
+          "word": "discriminate",
+          "correct_answer": "diffrentiate",
+          "wrong_answers": [
+            "preserve",
+            "accuse",
+            "declare innocent"
+          ],
+          "example": "Sarah couldn't discriminate  between a good wine and a bad wine, so she avoided wine tastings.",
+          "definition": ""
+        },
+        {
+          "word": "lethargic",
+          "correct_answer": "weary",
+          "wrong_answers": [
+            "hostile",
+            "sensitive",
+            "incorrect"
+          ],
+          "example": "Nothing can make a person more lethargic than a big turkey dinner.",
+          "definition": ""
+        },
+        {
+          "word": "belittle",
+          "correct_answer": "put someone down",
+          "wrong_answers": [
+            "enrage",
+            "shrink",
+            "reduce in physical size"
+          ],
+          "example": "A good teacher will never belittle his students, but will instead empower them.",
+          "definition": ""
+        },
+        {
+          "word": "pinnacle",
+          "correct_answer": "highest point",
+          "wrong_answers": [
+            "lucky charm",
+            "front of a ship",
+            "award"
+          ],
+          "example": "At its pinnacle, the Roman Empire extended across most of the landmass of Eurasia, a feat not paralleled to the rise of the British Empire in the 18th and 19th century.",
+          "definition": ""
+        },
+        {
+          "word": "impermeable",
+          "correct_answer": "sealed",
+          "wrong_answers": [
+            "momentary",
+            "shameless",
+            "slow-moving"
+          ],
+          "example": "The sand bags placed on the river formed an impermeable barrier, protecting the town from flooding.",
+          "definition": ""
+        },
+        {
+          "word": "egotist",
+          "correct_answer": "boaster",
+          "wrong_answers": [
+            "philosopher",
+            "rebel",
+            "manager"
+          ],
+          "example": "An egotist, Natasha had few friends because of her inability to talk about anything except her dream of becoming the next American Idol.",
+          "definition": ""
+        },
+        {
+          "word": "uncompromising",
+          "correct_answer": "inflexible",
+          "wrong_answers": [
+            "without",
+            "angry",
+            "shapeless"
+          ],
+          "example": "Bart and Hilda's relationship ultimately failed because they were both so uncompromising  that they couldn't agree on an apartment.",
+          "definition": ""
+        },
+        {
+          "word": "resolve",
+          "correct_answer": "determine",
+          "wrong_answers": [
+            "declare innocent",
+            "abandon",
+            "rewrite"
+          ],
+          "example": "After much thought, Ted resolved not to travel abroad this summer because he didn't have much money in his bank account.",
+          "definition": ""
+        },
+        {
+          "word": "summit",
+          "correct_answer": "highest point",
+          "wrong_answers": [
+            "award",
+            "insult",
+            "defeat"
+          ],
+          "example": "After hiking for two days, the climbers finally reached the summit of Mount Kilimanjaro.",
+          "definition": ""
+        },
+        {
+          "word": "sentimental",
+          "correct_answer": "emotional",
+          "wrong_answers": [
+            "unstable",
+            "lacking focus",
+            "imprecise"
+          ],
+          "example": "I don't like romanticism for the same reason I don't like melodramatic acting and soap operas—overly sentimental.",
+          "definition": ""
+        }
+  
+      ]
     }
   ]
 }
