@@ -6,7 +6,7 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 var recognition = new SpeechRecognition();
 var listening = false;
 var listenLoaded = false;
-
+var cat ="";
 document.getElementById("speak-btn").onclick = function() {
     recognition.start();
     listening = true;
@@ -54,6 +54,7 @@ function hidePages(){
 
 function displayHomePage(){
     hidePages();
+    checkQuiz();
     document.getElementById("home-page").classList.remove("d-none");
     
     createHomePage();
@@ -63,12 +64,13 @@ function displayHomePage(){
 
 function displayCategory(itemName){
     hidePages();
+    checkQuiz();
     document.getElementById("category-page").classList.remove("d-none");
-    
     selectItem = user.getCategory(itemName);
     createCategoryPage(selectItem);
 
 }
+
 
 
 function displayQuiz(itemName, index){
@@ -79,12 +81,21 @@ function displayQuiz(itemName, index){
     item = selectCategory(itemName);
     
     currentQuiz = item.levels[index];
+    setQuizHeader(currentQuiz);
     play = true;
+}
+
+
+function checkQuiz(){
+    if(play){
+        resetQuizPage();
+    }
 }
 
 
 function displayAccountPage(){
     hidePages();
+    checkQuiz();
     document.getElementById("account-page").classList.remove("d-none");
     
     createAccount();
@@ -99,6 +110,8 @@ function displaySearchResults(item){
 
 function displaySearchPage(){
     hidePages();
+    checkQuiz();
+    resetSearchPage();
     document.getElementById("search-page").classList.remove("d-none");
 }
 

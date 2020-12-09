@@ -175,9 +175,35 @@ function createAccount(){
     userReviewsList.html("");
     userNameBox.html(user.getName());
     reviews = user.getReviews().keys();
-    for(word of reviews){
-//        userReviewsList.html('<li class="list-group-item mx-3">'+word.charAt(0).toUpperCase() + word.slice(1)+'</li>', true);
-        userReviewsList.html('<div  class="col mb-4"><div class="card text-center"><div class="card-body">'+word.charAt(0).toUpperCase() + word.slice(1)+'</div></div></div>', true);
+    if(user.getReviews().size == 0){
+         
+        userReviewsList.html('<p class="h4 text-muted ml-3">No Reviews </p>');
+    
+    }else{
+        
+
+        for(word of reviews){
+    //        userReviewsList.html('<li class="list-group-item mx-3">'+word.charAt(0).toUpperCase() + word.slice(1)+'</li>', true);
+            userReviewsList.html('<div  class="col mb-4"><div class="card text-center h6"><div class="card-body">'+word.charAt(0).toUpperCase() + word.slice(1)+'</div></div></div>', true);
+        }
+    
+    }
+    
+    userFavList = select("#user-fav");
+    userFavList.html("");
+    favs = user.getFavorites().keys();
+    
+    if(user.getFavorites().size == 0){
+         
+        userFavList.html('<p class="h4 text-muted ml-3"> No Words Added </p>');
+    
+    }else{
+
+        for(word of favs){
+    //        userReviewsList.html('<li class="list-group-item mx-3">'+word.charAt(0).toUpperCase() + word.slice(1)+'</li>', true);
+            userFavList.html('<div  class="col mb-4"><div class="card text-center h6"><div class="card-body">'+word.charAt(0).toUpperCase() + word.slice(1)+'</div></div></div>', true);
+        }
+        
     }
     
 
@@ -214,12 +240,17 @@ function createCategoryPage(category){
 
 /* QUIZ  */
 
+function setQuizHeader(quiz){
+    quizHeader = select("#quiz-header");
+    var currCat = quiz.getCategory().toLowerCase();
+    quizHeader.html('<p><a onclick="displayCategory(\''+currCat+'\')" id="quiz-back"><i class="fas fa-arrow-left h4"></i></a> '+ quiz.getName()+'</p>');
+}
+
 function createQuiz(quiz){
     quizBox = select("#quiz");
     quizResults = select("#quiz-results");
     
-    quizHeader = select("#quiz-header");
-    quizHeader.html("<p>"+ quiz.getName()+"</p>");
+   
     questions = quiz.getQuestions();
     
     if(nextSet && cor){
@@ -272,6 +303,23 @@ function createQuiz(quiz){
     
     
 }
+
+function resetQuizPage(){
+    
+    quizBox = select("#quiz");
+    quizResults = select("#quiz-results");
+    score = 0;
+    quizNum = 0;
+    answered = false;
+    answers = [];
+    nextSet = true;
+    cor = false;
+    quizResults.addClass("d-none");
+    quizBox.removeClass("d-none");
+    play = false;
+}
+
+
 
 function setQuiz(question, quiz){
     
@@ -492,7 +540,18 @@ function recognitionResults(){
     createSearchResults();
 }
 
+function resetSearchPage(){
+    
+    search.html("");
+    search.value("");
+    searchList.html("");
+    searchList.html("<li class=\"list-group-item px-5 mx-5 h4 text-muted text-center\">No Results</li>");
+}
+
 async function createSearchResults(){
+    
+    
+    
     query = search.value();
     if(query != previous){
         previous = query;
@@ -542,13 +601,11 @@ async function createSearchResults(){
                        
                        searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn favBtn text-right btn-blue align-self-end px-5"><span class="h5">Favorite</span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
                        
-                       displaySearchResults(searchList);
-                   
                    }
                
                }else{
                    
-                   searchList.html("<li class=\"list-group-item px-5 mx-5\">No Results</li>");
+                   searchList.html("<li class=\"list-group-item px-5 mx-5 h4 text-muted text-center\">No Results</li>");
                }
                
                
@@ -559,6 +616,9 @@ async function createSearchResults(){
             
 
             
+        }else{
+            searchList.html("");
+            searchList.html("<li class=\"list-group-item px-5 mx-5 h4 text-muted text-center\">No Results</li>");
         }
         
     }
@@ -585,7 +645,7 @@ async function getSearch(){
 }
 
 async function getDefinition(words){
-    results = [];
+    var results = [];
     try{
         
         defRequests = words.map(word => fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/definitions", {
@@ -624,7 +684,7 @@ async function getDefinition(words){
 
 async function getExample(words){
     
-    results = new Map();
+    var results = new Map();
      try{
         
         examRequests = words.map(word => fetch("https://wordsapiv1.p.rapidapi.com/words/"+word+"/examples", {

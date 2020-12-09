@@ -52,8 +52,11 @@
       </div>
       
             
-<!--      HOME PAGE       -->     
+
 <div class="mx-auto container-fluid">    
+    
+    <!--      HOME PAGE       -->     
+    
       <div id="home-page" class="container-fluid page">
           
           <div class="row justify-content-around">
@@ -72,13 +75,13 @@
               <div class="category-box card my-5" style="">
                   <div class="card-body">
                       <h1 class="card-title font-weight-bolder">Common Words</h1>
-                      <h4 class="card-subtitle mb-2 font-weight-light">0 of 5 Levels Completed</h4>
+                      <h4 class="card-subtitle mb-2 font-weight-light">0 of 13 Levels Completed</h4>
                       <div class="progress category-progress border border-dark" style="">
                           <div class="progress-bar bg-progress" role="progressbar" style="width: 0%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                       
                   </div>
-                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button>
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4" disabled><span class="h5"><i class="fas fa-lock"></i></span></button>
               </div>
               
           </div>
@@ -89,26 +92,26 @@
               <div class="category-box card my-5" style="">
                   <div class="card-body">
                       <h1 class="card-title font-weight-bolder">Intermediate Words</h1>
-                      <h4 class="card-subtitle mb-2 font-weight-light">0 of 5 Levels Completed</h4>
+                      <h4 class="card-subtitle mb-2 font-weight-light">0 of 25 Levels Completed</h4>
                       <div class="progress category-progress border border-dark" style="">
                           <div class="progress-bar bg-progress" role="progressbar" style="width: 0%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                         
                   </div>
-                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button> 
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4" disabled><span class="h5"><i class="fas fa-lock"></i></span></button> 
               </div>
               
               
               <div class="category-box card my-5" style="">
                   <div class="card-body">
                       <h1 class="card-title font-weight-bolder">Advanced Words</h1>
-                      <h4 class="card-subtitle mb-2 font-weight-light">0 of 5 Levels Completed</h4>
+                      <h4 class="card-subtitle mb-2 font-weight-light">0 of 30 Levels Completed</h4>
                       <div class="progress category-progress border border-dark" style="">
                           <div class="progress-bar bg-progress" role="progressbar" style="width: 0%; " aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                       
                   </div>
-                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4"><span class="h5">Study this Section</span></button>
+                  <button id="basicBtn" class="btn btn-category w-50 col align-self-end mb-3 mx-4" disabled><span class="h5"><i class="fas fa-lock"></i></span></button>
               </div>
           </div>
       
@@ -124,12 +127,33 @@
               <p class="h4">Welcome <span id="user-name">User</span>!!!!</p>
           </div>
           
-          <div class=" mx-5">
+          <div class=" mx-5 my-5">
               <div class="card">
                   <div class="card-header h3">Reviews</div>
                   <div class="card-body">
                       
                       <div id="user-reviews" class="row row-cols-1 row-cols-md-3 row-cols-lg-5">
+                          <div class="col mb-4">
+                            <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+
+
+                  </div>
+              </div>
+          </div>
+          
+          
+          <div class=" mx-5 my-5">
+              <div class="card">
+                  <div class="card-header h3">Favorites</div>
+                  <div class="card-body">
+                      
+                      <div id="user-fav" class="row row-cols-1 row-cols-md-3 row-cols-lg-5">
                           <div class="col mb-4">
                             <div class="card">
                               <div class="card-body">
@@ -161,7 +185,7 @@
 <!--      LEVEL        -->     
       
       <div id="category-page" class="container d-none page">
-          <div id="category-name" class="h1 my-5"> Basic Words</div>
+          <p  class="h1 my-5"><a onclick="displayHomePage()"><i class="fas fa-arrow-left h4"></i></a> <span id="category-name">Basic Words</span></p>
           <div id="category-levels" class="my-3">
               <div class="card">
                   <div class="card-body">
@@ -189,7 +213,7 @@
       <div class="container-fluid">
       
         <div id = "quiz-header" class=" m-4">
-            <p> Basic Level 1</p>
+            <p><a id="quiz-back"><i class="fas fa-arrow-left h4"></i></a>Basic Level 1</p>
         </div>
       </div>
       
@@ -300,7 +324,7 @@
 <!--      SEARCH        -->   
       
       <div id="search-page" class="d-none page">
-          <div class="input-group my-5 px-5">
+          <div class="input-group my-5 px-5 input-group-lg">
               <input type="text" id= "search" class="form-control" placeholder="Search Word" aria-label="Search" aria-describedby="button-addon2">
               <div class="input-group-append">
                   <button class="btn btn-secondary" type="button" id="speak-btn">

@@ -19,6 +19,10 @@ class User{
         this.favorite.add(word);
     }
     
+    getFavorites(){
+        return this.favorite;
+    }
+    
     
     
     getReviews(){

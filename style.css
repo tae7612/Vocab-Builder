@@ -26,11 +26,15 @@ header nav button{
 }
 
 .nav-btn{
-     font-family: 'Alegreya SC', serif;
+    font-family: 'Alegreya SC', serif;
     color: #ffffff;
     font-size: 28px;
 }
 
+.nav-btn:hover{
+    color: #ffffff;
+    font-size: 35px;
+}
 
 
 .logo{
@@ -60,6 +64,11 @@ header nav button{
     color: #ffffff;
 }
 
+.btn-blue:hover{
+     background-color:  #329e9b;
+     color: #ffffff;
+}
+
 .bg-purple{
     background-color: #643573;
     color: #ffffff;
@@ -72,6 +81,12 @@ header nav button{
     color: #ffffff;
     font-weight: bold;
 }
+
+.btn-category:hover{
+    color: #ffffff;
+    background-color: #572e64;
+}
+
 
 #userNameModal{
     
@@ -146,7 +161,8 @@ header nav button{
 }
 
 .quiz-next-btn:hover{
-    background-color:  #3ab6b2;
+    background-color:  #572e64;
+    color: #ffffff;
 }
 
 .quiz-title{
@@ -188,7 +204,8 @@ header nav button{
 }
 
 .quiz-play-again-btn:hover{
-    background-color:  #3ab6b2;
+    background-color:  #66b143;
+    color: #ffffff;
 }
 
 
