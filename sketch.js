@@ -563,11 +563,10 @@ function resetSearchPage(){
     search.value("");
     searchList.html("");
     searchList.html("<li class=\"list-group-item px-5 mx-5 h4 text-muted text-center\">No Results</li>");
+    previous = "";
 }
 
 async function createSearchResults(){
-    
-    
     
     query = search.value();
     if(query != previous){

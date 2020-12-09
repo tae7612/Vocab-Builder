@@ -126,7 +126,7 @@ function addFavorite(id, word){
     var favBtn = document.getElementById(id);
     
     favBtn.innerHTML = '<span class="h3"><i class="fas fa-heart"></i></span>';
-    favBtn.onclick = function(id,word){removeFavorite(id,word);};
+    favBtn.onclick = function(){removeFavorite(id,word);};
     favBtn.classList.remove('btn-blue');
     favBtn.classList.add('btn-fav');
 }
@@ -135,10 +135,11 @@ function addFavorite(id, word){
 function removeFavorite(id, word){
     console.log("Remove!!");
     user.removeFavorite(word);
-    var favBtn = document.getElementById(id);
     
+    var favBtn = document.getElementById(id);
+    console.log(id);
     favBtn.innerHTML = '<span class="h3"><i class="far fa-heart"></i></span>';
-    favBtn.onclick = function(id,word){addFavorite(id,word);};
+    favBtn.onclick = function(){addFavorite(id,word);};
     favBtn.classList.add('btn-blue');
     favBtn.classList.remove('btn-fav');
 }
