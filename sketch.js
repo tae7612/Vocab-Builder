@@ -629,6 +629,12 @@ async function createSearchResults(){
                
                searchResults = await getSearch();
                words = searchResults.map(function(elem) {return elem.word});
+               defs = searchResults.map(function(elem) {return elem.defs});
+               tags = searchResults.map(function(elem) {return elem.tags});
+               console.log(searchResults);
+               console.log(getDefForm(defs[0][0].charAt(0)));
+               console.log(getDef(defs[0][0]));
+               console.log(getPronounciation(tags[0]));
                
                resultObj = await getDefinition(words);
                
@@ -669,8 +675,6 @@ async function createSearchResults(){
                             searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-blue align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
                        }
                        
-                      
-                       
                    }
                
                }else{
@@ -693,12 +697,6 @@ async function createSearchResults(){
         
     }
     
-    
-    
-
-    
-
-
 }
 
 /**
@@ -707,7 +705,7 @@ async function createSearchResults(){
 async function getSearch(){ 
     
     try{
-        let searchPromise = await fetch( "https://api.datamuse.com/words?sp="+query+"*&max=20");
+        let searchPromise = await fetch("https://api.datamuse.com/words?sp="+query+"*&md=dr&ipa=1&max=20");
         let results = await searchPromise.json();
         return await results;
 
@@ -761,6 +759,34 @@ async function getDefinition(words){
 
     
 
+}
+
+
+function getDefForm(def){
+    switch(def){
+        case "n":
+            return "noun";
+        case "v":
+            return "verb";
+        case "adj":
+            return "adjective";
+        case "adv":
+            return "adverb";
+        default:
+            return "noun";
+    }
+}
+
+function getDef(def){
+    var defString = "";
+    defString = defString + getDefForm(def.charAt(0)) + "\n";
+    defString = defString + "\t1. "+def.charAt(2).toUpperCase() + def.slice(3);
+    return defString;
+}
+
+function getPronounciation(tags){
+    var pronounce = tags[1].replace("ipa_pron:","");
+    return pronounce;
 }
 
 /**
