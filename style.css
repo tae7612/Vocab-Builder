@@ -41,11 +41,12 @@ header nav button{
     font-family: 'Alegreya SC', serif;
     color: #ffffff;
     font-size: 28px;
+    transition: font-size .8s ease-in-out;
 }
 
 .nav-btn:hover{
     color: #ffffff;
-    font-size: 35px;
+    font-size: 32px;
 }
 
 
