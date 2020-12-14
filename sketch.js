@@ -629,54 +629,43 @@ async function createSearchResults(){
                
                searchResults = await getSearch();
                words = searchResults.map(function(elem) {return elem.word});
-               defs = searchResults.map(function(elem) {return elem.defs});
-               tags = searchResults.map(function(elem) {return elem.tags});
-               console.log(searchResults);
-               console.log(getDefForm(defs[0][0].charAt(0)));
-               console.log(getDef(defs[0][0]));
-               console.log(getPronounciation(tags[0]));
-               
-               resultObj = await getDefinition(words);
                
                exampleObj = await getExample(words);
                
                searchSpinner.addClass('d-none');
                searchLoading = false;
                
-               
-               if(resultObj.length > 0){
-                   for (results of resultObj){
-                       
+               if(searchResults.length > 0){
+                   for( results of searchResults){
+                       //Word
                        var word = results.word;
-                       var example = exampleObj.get(word.toLowerCase());
+                       //Examples
+                       var examples = exampleObj.get(word.toLowerCase());
+                       console.log(examples);
                        if(word.length > 1){
                            word = word.charAt(0).toUpperCase() + word.slice(1);
                        }else{
                            word = word.toUpperCase();
                        }
                        
-                       if(results.definitions.length > 0){
+                       var tags = results.tags;
+                       var defs = results.defs;
+                       if(typeof defs !== 'undefined'){
+                           console.log(word);
                            
-                           var def = results.definitions[0].definition;
-                           def = def.charAt(0).toUpperCase() + def.slice(1);
+                           if(user.checkFavorite(word.toLowerCase())){
+                               
+                               searchList.html('<div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h4 class="ml-3 card-title text-muted">['+getPronounciation(tags)+']</h4><div class="mr-3"><button id="fav-'+word.toLowerCase()+'"  onclick="removeFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-fav align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div>'+displayDefinition(defs)+displayExamples(examples)+'</div></div></div>',true);
                            
-                       }else{
+                           }else{
+                               
+                               searchList.html('<div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h4 class="ml-3 card-title text-muted">['+getPronounciation(tags)+']</h4><div class="mr-3"><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-blue align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div>'+displayDefinition(defs)+displayExamples(examples)+'</div></div></div>',true);
+                               
+                           }
                            
-                           def = "No definition found";
                        }
-                       
-                       if(user.checkFavorite(word.toLowerCase())){
-                           
-                            searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="removeFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-fav align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
-                           
-                           
-                       }else{
-                           
-                            searchList.html(' <div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h5 class="ml-3 card-title text-muted">Definition</h5><div class="mr-3" ><button id="fav-'+word.toLowerCase()+'"  onclick="addFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-blue align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div><p class="card-text">'+def+'</p><h5 class="card-title text-muted">Example</h5><p class="card-text">'+example+'</p></div></div></div>',true);
-                       }
-                       
                    }
-               
+                   
                }else{
                    
                    searchList.html("<li class=\"list-group-item px-5 mx-5 h4 text-muted text-center\">No Results</li>");
@@ -705,7 +694,7 @@ async function createSearchResults(){
 async function getSearch(){ 
     
     try{
-        let searchPromise = await fetch("https://api.datamuse.com/words?sp="+query+"*&md=dr&ipa=1&max=20");
+        let searchPromise = await fetch("https://api.datamuse.com/words?sp="+query+"*&md=dr&ipa=1&max=30");
         let results = await searchPromise.json();
         return await results;
 
@@ -762,6 +751,11 @@ async function getDefinition(words){
 }
 
 
+/**
+ * Get inflected word form of defintion (noun, adjective, verb, adverb)
+ *
+ *
+*/
 function getDefForm(def){
     switch(def){
         case "n":
@@ -777,16 +771,84 @@ function getDefForm(def){
     }
 }
 
-function getDef(def){
+/**
+ * Returns html string of defintion list
+ *
+*/
+function displayDefinition(defs){
     var defString = "";
-    defString = defString + getDefForm(def.charAt(0)) + "\n";
-    defString = defString + "\t1. "+def.charAt(2).toUpperCase() + def.slice(3);
+    var forms = new Map();
+    var count = 0;
+    var currForm = "";
+    
+    for(def of defs){
+        var split = def.split('\t');
+        var form = getDefForm(split[0]);
+        if (count < 2){
+            if(forms.has(form)){
+                
+                sen = forms.get(form);
+                sen = sen + "<li>" +split[1].charAt(0).toUpperCase() + split[1].slice(1)+"</li>";
+                forms.set(form, sen);
+
+            }else{
+                sen = "<li>" +split[1].charAt(0).toUpperCase() + split[1].slice(1)+"</li>";
+                forms.set(form,sen);
+            }
+            
+        }
+        
+        //Control number of definitions under each form
+        
+        if(currForm == form){
+            count++;
+        }else{
+            currForm = form;
+            count = 1;
+        }
+        
+    }
+    
+    var keys = forms.keys();
+    for(key of keys){
+        defString = defString +'<h5 class="text-muted">'+key+'</h5>' + '<ol>'+forms.get(key)+'</ol>';
+    }
+    
     return defString;
+    
+    
+   
 }
 
+/**
+ * Returns IPA Pronounciation
+ *
+*/
 function getPronounciation(tags){
     var pronounce = tags[1].replace("ipa_pron:","");
     return pronounce;
+}
+
+/**
+ * Returns html string of example list
+ *
+*/
+function displayExamples(examples){
+    
+    var exampleStr = '<h5 class="card-title text-muted">Example</h5><ol>';
+    
+    if(examples.length >=2 ){
+        exampleStr = exampleStr +'<li>'+examples[0].charAt(0).toUpperCase()+examples[0].slice(1)+'</li><li>'+examples[1].charAt(0).toUpperCase()+examples[1].slice(1)+'</li></ol>';
+
+    }else if(examples.length > 0){
+        
+        exampleStr = exampleStr +'<li>'+examples[0].charAt(0).toUpperCase() + examples[0].slice(1)+'</li></ol>'
+    }else{
+        
+        exampleStr = "" ;
+    }
+    
+    return exampleStr;
 }
 
 /**
@@ -810,12 +872,13 @@ async function getExample(words){
         examResults = await Promise.all(examResponses.map(result => result.json()));
         examResults.forEach(function(data){
             var keys= Object.keys(data);
+            console.log(data);
             if(keys[0] == "word")
             {
                 if(typeof data.examples[0] === 'undefined' ){
-                    results.set(data.word, "No example avaliable" );
+                    results.set(data.word, []);
                 }else{
-                    results.set(data.word, data.examples[0].charAt(0).toUpperCase() + data.examples[0].slice(1) );
+                    results.set(data.word, data.examples);
                 }
             }
             
