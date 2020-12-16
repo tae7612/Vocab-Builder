@@ -655,7 +655,7 @@ async function createSearchResults(){
                            
                            if(user.checkFavorite(word.toLowerCase())){
                                
-                               searchList.html('<div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h4 class="ml-3 card-title text-muted">['+getPronounciation(tags)+']</h4><div class="mr-3"><button id="fav-'+word.toLowerCase()+'"  onclick="removeFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-fav align-self-end px-3"><span class="h3"><i class="far fa-heart"></i></span></button></div></div>'+displayDefinition(defs)+displayExamples(examples)+'</div></div></div>',true);
+                               searchList.html('<div class="card mx-5 mb-3"><h5 class="card-header bg-purple">'+word+'</h5><div class="card-body"><div class="ml-3"><div class="row justify-content-between"><h4 class="ml-3 card-title text-muted">['+getPronounciation(tags)+']</h4><div class="mr-3"><button id="fav-'+word.toLowerCase()+'"  onclick="removeFavorite(\'fav-'+word.toLowerCase()+'\',\''+word.toLowerCase()+'\')" class="btn text-right btn-fav align-self-end px-3"><span class="h3"><i class="fas fa-heart"></i></span></button></div></div>'+displayDefinition(defs)+displayExamples(examples)+'</div></div></div>',true);
                            
                            }else{
                                
